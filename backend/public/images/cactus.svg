@@ -1,0 +1,6 @@
+<svg width="60" height="120" viewBox="0 0 60 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect x="25" y="40" width="10" height="60" rx="5" fill="#388E3C"/>
+  <rect x="10" y="70" width="10" height="30" rx="5" fill="#43A047"/>
+  <rect x="40" y="70" width="10" height="30" rx="5" fill="#43A047"/>
+  <ellipse cx="30" cy="40" rx="15" ry="20" fill="#388E3C"/>
+</svg>

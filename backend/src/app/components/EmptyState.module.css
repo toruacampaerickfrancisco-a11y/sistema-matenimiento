@@ -1,0 +1,60 @@
+/* EmptyState.module.css */
+
+.container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 60vh;
+  text-align: center;
+  background: linear-gradient(135deg, rgba(123, 19, 67, 0.05), rgba(169, 31, 79, 0.05));
+  border-radius: 16px;
+  margin: 20px;
+  padding: 40px;
+}
+
+.content {
+  max-width: 480px;
+}
+
+.icon {
+  font-size: 120px;
+  margin-bottom: 20px;
+  background: linear-gradient(135deg, #7b1343, #a91f4f, #99004d);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.title {
+  color: #7b1343;
+  font-size: 24px;
+  margin-bottom: 16px;
+  font-weight: 600;
+}
+
+.description {
+  color: #666;
+  font-size: 16px;
+  line-height: 1.5;
+  margin-bottom: 24px;
+}
+
+.button {
+  background: linear-gradient(135deg, #7b1343, #a91f4f, #99004d);
+  color: white;
+  padding: 12px 24px;
+  border-radius: 8px;
+  display: inline-block;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 12px rgba(123, 19, 67, 0.3);
+  text-decoration: none;
+  border: none;
+}
+
+.button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(123, 19, 67, 0.4);
+}

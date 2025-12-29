@@ -1,0 +1,3 @@
+id,modelo,tipo,marca,serial,numero_inventario,estatus Equipo,departamento,usuario_asignado_id,procesador,ram,almacenamiento,Observaciones,Requerimiento
+EQP-001,Inspiron 15,Laptop,Dell,ABC123,INV-001,Activo,TI,,Intel i5,8GB,SSD 256GB,,
+EQP-002,Optiplex 3020,Escritorio,Dell,DEF456,INV-002,Activo,Contabilidad,,Intel i3,4GB,HDD 500GB,,

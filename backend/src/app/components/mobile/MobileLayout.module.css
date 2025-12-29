@@ -1,0 +1,293 @@
+/* Layout Móvil - Sistema de Mantenimiento */
+/* Colores del Gobierno de Sonora */
+
+.mobileLayout {
+  min-height: 100vh;
+  background: linear-gradient(135deg, rgba(123, 19, 67, 0.02) 0%, rgba(169, 31, 79, 0.02) 50%, rgba(153, 0, 77, 0.02) 100%);
+  display: flex;
+  flex-direction: column;
+}
+
+/* Banner superior */
+.topBanner {
+  background: linear-gradient(135deg, #7b1343 0%, #a91f4f 50%, #99004d 100%);
+  color: white;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  box-shadow: 0 2px 10px rgba(123, 19, 67, 0.3);
+}
+
+.bannerContent {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  max-width: 100%;
+}
+
+.bannerLeft, .bannerRight {
+  flex: 0 0 auto;
+  min-width: 60px;
+}
+
+.bannerCenter {
+  flex: 1;
+  text-align: center;
+}
+
+.bannerTitle {
+  font-weight: 600;
+  font-size: 14px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.backButton, .logoutButton {
+  background: rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: white;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+}
+
+.backButton:hover, .logoutButton:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.backButton:active, .logoutButton:active {
+  transform: translateY(0);
+}
+
+.logoutButton {
+  font-size: 16px;
+  padding: 6px 10px;
+}
+
+.content {
+  flex: 1;
+  padding-top: 8px; /* Espacio desde el banner superior */
+  padding-bottom: 80px; /* Espacio para la barra inferior */
+  overflow-y: auto;
+}
+
+.tabContent {
+  padding: 16px;
+  max-width: 100%;
+}
+
+.header {
+  margin-bottom: 20px;
+  text-align: center;
+  padding: 16px;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(123, 19, 67, 0.1);
+  border: 1px solid rgba(123, 19, 67, 0.1);
+}
+
+.header h2 {
+  margin: 0 0 8px 0;
+  font-size: 20px;
+  font-weight: 600;
+  color: #7b1343;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.header p {
+  margin: 0;
+  font-size: 14px;
+  color: #666;
+  font-weight: 400;
+}
+
+/* Contenedores específicos */
+.permissionsContainer,
+.profileContainer {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: 0 2px 8px rgba(123, 19, 67, 0.1);
+  border: 1px solid rgba(123, 19, 67, 0.1);
+}
+
+/* Estados de carga */
+.loadingContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 16px;
+  text-align: center;
+}
+
+.loadingSpinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid rgba(123, 19, 67, 0.2);
+  border-top: 3px solid #7b1343;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 16px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.loadingText {
+  color: #7b1343;
+  font-weight: 500;
+  font-size: 14px;
+}
+
+/* Estados vacíos */
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 16px;
+  text-align: center;
+  background: #ffffff;
+  border-radius: 12px;
+  margin: 16px;
+  box-shadow: 0 2px 8px rgba(123, 19, 67, 0.1);
+}
+
+.emptyIcon {
+  font-size: 48px;
+  margin-bottom: 16px;
+  opacity: 0.6;
+}
+
+.emptyTitle {
+  font-size: 18px;
+  font-weight: 600;
+  color: #7b1343;
+  margin-bottom: 8px;
+}
+
+.emptyDescription {
+  font-size: 14px;
+  color: #666;
+  line-height: 1.4;
+}
+
+/* Botones de acción flotantes */
+.floatingAction {
+  position: fixed;
+  bottom: 100px;
+  right: 20px;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #7b1343 0%, #a91f4f 50%, #99004d 100%);
+  color: white;
+  border: none;
+  font-size: 24px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 4px 16px rgba(123, 19, 67, 0.3);
+  transition: all 0.2s ease;
+  z-index: 999;
+}
+
+.floatingAction:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 20px rgba(123, 19, 67, 0.4);
+}
+
+.floatingAction:active {
+  transform: scale(0.95);
+}
+
+/* Animación de entrada suave */
+.tabContent {
+  animation: slideInUp 0.3s ease;
+}
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive */
+@media (max-width: 320px) {
+  .tabContent {
+    padding: 12px;
+  }
+  
+  .header {
+    padding: 12px;
+    margin-bottom: 16px;
+  }
+  
+  .header h2 {
+    font-size: 18px;
+  }
+  
+  .floatingAction {
+    width: 48px;
+    height: 48px;
+    font-size: 20px;
+    bottom: 90px;
+    right: 16px;
+  }
+}
+
+/* Asegurar que no se muestre en desktop */
+@media (min-width: 769px) {
+  .mobileLayout {
+    display: none !important;
+  }
+}
+
+/* Scroll suave */
+.content {
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Estilos para mejorar la experiencia táctil */
+.tabContent * {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Indicador de pull-to-refresh */
+.pullToRefresh {
+  text-align: center;
+  padding: 16px;
+  color: #7b1343;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.refreshSpinner {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border: 2px solid rgba(123, 19, 67, 0.2);
+  border-top: 2px solid #7b1343;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-right: 8px;
+}

@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "mantenimiento-erp-backend": "file:.."
+  }
+}

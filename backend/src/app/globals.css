@@ -1,0 +1,137 @@
+/* Estilo universal para barra de búsqueda tipo Sonora */
+.searchBar {
+  display: flex;
+  align-items: center;
+  border-radius: 999px;
+  border: 2px solid #99004d;
+  overflow: hidden;
+  background: white;
+  max-width: 320px;
+  min-width: 180px;
+  width: 100%;
+}
+.searchBar input[type="text"], .searchBar input[type="search"] {
+  flex: 1;
+  border: none;
+  outline: none;
+  padding: 8px 14px;
+  font-size: 16px;
+  font-weight: 700;
+  color: #555;
+  background: transparent;
+}
+.searchBar input::placeholder {
+  color: #666;
+  font-weight: 700;
+}
+.searchBar button, .searchBar .searchBtn {
+  background: #99004d;
+  color: white;
+  border: none;
+  font-weight: 700;
+  font-size: 20px;
+  padding: 0 28px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border-radius: 0 999px 999px 0;
+  cursor: pointer;
+}
+input[type="text"], input[type="password"] {
+  background: transparent !important;
+  box-shadow: none !important;
+  outline: none;
+}
+
+/* Eliminar resaltado del navegador en todos los elementos */
+* {
+  outline: none !important;
+  -webkit-tap-highlight-color: transparent !important;
+  -webkit-touch-callout: none !important;
+  -webkit-user-select: none !important;
+  -moz-user-select: none !important;
+  -ms-user-select: none !important;
+  user-select: none !important;
+}
+
+/* Permitir selección de texto solo donde sea necesario */
+input, textarea, [contenteditable] {
+  -webkit-user-select: text !important;
+  -moz-user-select: text !important;
+  -ms-user-select: text !important;
+  user-select: text !important;
+}
+
+/* Eliminar highlight azul del navegador en elementos clickeables */
+button, a, div[onclick], span[onclick], [role="button"] {
+  -webkit-tap-highlight-color: transparent !important;
+  outline: none !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+/* Eliminar focus visible en todos los elementos */
+*:focus, *:active, *:visited {
+  outline: none !important;
+  box-shadow: none !important;
+  border: none !important;
+}
+
+/* Específicamente para elementos de tabla que pueden ser clickeables */
+td, tr, th {
+  -webkit-tap-highlight-color: transparent !important;
+  outline: none !important;
+}
+
+/* 🔔 Animación de campana para notificaciones */
+@keyframes ring {
+  0%, 100% { transform: rotate(-15deg); }
+  50% { transform: rotate(15deg); }
+}
+
+@keyframes glow {
+  0%, 100% { filter: drop-shadow(0 0 4px gold); }
+  50% { filter: drop-shadow(0 0 12px gold); }
+}
+
+.notification-bell-ringing {
+  animation: ring 0.5s ease-in-out infinite, glow 1s ease-in-out infinite;
+}
+
+/* Solución simple y efectiva para el sombreado del autocompletado */
+input:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0 1000px rgba(0,0,0,0) inset !important;
+  -webkit-text-fill-color: inherit !important;
+}
+
+input:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0 1000px rgba(0,0,0,0) inset !important;
+  -webkit-text-fill-color: inherit !important;
+}
+
+
+
+/* Simple global reset and base styles */
+html, body, #__next {
+  height: 100%;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+  color: #111827;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a { color: inherit; }
+
+/* Utility to help hero background image cover */
+.bg-cover { background-size: cover; background-position: center; }
+
+/* Animación para spinner de loading */
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}

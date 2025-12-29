@@ -1,0 +1,69 @@
+
+/* Layout.module.css - Layout principal del sistema */
+
+.layout {
+  display: flex;
+  min-height: 100vh;
+  background-color: var(--color-gray-50);
+}
+
+
+.mainContent {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  margin-left: 280px; /* Ancho del sidebar */
+  transition: margin-left var(--transition-base);
+}
+
+.banner {
+  position: static;
+  width: 100%;
+  max-width: none;
+  min-width: 900px;
+  margin: 0 0 2rem 0;
+  box-shadow: var(--shadow-md);
+  border-radius: var(--border-radius-lg);
+  z-index: 1;
+}
+
+
+.content {
+  flex: 1;
+  padding: var(--spacing-xl) var(--spacing-xl);
+  max-width: 100%;
+  width: 100%;
+  margin: 0 auto;
+  overflow-x: auto;
+  box-sizing: border-box;
+  background-color: var(--color-gray-50);
+  min-height: calc(100vh - 80px); /* Altura del header */
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .mainContent {
+    margin-left: 0;
+  }
+  
+  .content {
+    padding: var(--spacing-lg) var(--spacing-md);
+  }
+}
+
+@media (max-width: 768px) {
+  .content {
+    padding: var(--spacing-md);
+  }
+}
+
+/* Sidebar colapsado */
+.layout:has(.sidebar.collapsed) .mainContent {
+  margin-left: 70px;
+}
+
+@media (max-width: 1024px) {
+  .layout:has(.sidebar.collapsed) .mainContent {
+    margin-left: 0;
+  }
+}

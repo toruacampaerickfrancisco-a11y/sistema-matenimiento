@@ -1,0 +1,17 @@
+[
+  { "nombre": "ASISTENCIA CON PROBLEMAS COMUNES DE SOFTWARE", "tipo": "PREVENTIVO" },
+  { "nombre": "ACTIVACION DE SOFTWARE", "tipo": "PREVENTIVO" },
+  { "nombre": "ASISTENCIA DE INSTALACION DE ESCANER", "tipo": "CORRECTIVO" },
+  { "nombre": "CAMBIO DE EQUIPO", "tipo": "INSTALACION" },
+  { "nombre": "DESARROLLO Y AUTOMATIZACION", "tipo": "INSTALACION" },
+  { "nombre": "GESTION DE PROBLEMAS COMUNES", "tipo": "PREVENTIVO" },
+  { "nombre": "INSTALACION DE EQUIPO DE COMPUTO", "tipo": "INSTALACION" },
+  { "nombre": "SOPORTE DE CONTRASEÑAS Y CUENTA", "tipo": "CORRECTIVO" },
+  { "nombre": "SOPORTE DE HARDWARE", "tipo": "INSTALACION" },
+  { "nombre": "SOPORTE DE CONECTIVIDAD", "tipo": "CORRECTIVO" },
+  { "nombre": "SOPORTE DE INFRAESTRUCTURA DE RED", "tipo": "CORRECTIVO" },
+  { "nombre": "SOPORTE DE CAMARAS", "tipo": "PREVENTIVO" },
+  { "nombre": "SOPORTE DE CUENTAS DE CORREO", "tipo": "PREVENTIVO" },
+  { "nombre": "SOPORTE DE PROBLEMAS EN SISTEMA OPERATIVO", "tipo": "CORRECTIVO" },
+  { "nombre": "SOPORTE EN EQUIPO DE COMUNICACIÓN", "tipo": "CORRECTIVO" }
+]

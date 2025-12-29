@@ -1,0 +1,322 @@
+/* Estructura exacta como DECLARASON */
+.loginContainer {
+  display: flex;
+  min-height: 100vh;
+  position: relative;
+  overflow: hidden;
+  font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+  align-items: center;
+  justify-content: center;
+}
+
+.desertBackground {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: url('/images/fondo-login.png');
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  z-index: 1;
+}
+
+.purpleOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  /* Tono guinda sólido */
+  background: rgba(90, 1, 53, 0.904);
+  backdrop-filter: blur(2px);
+  z-index: 2;
+}
+
+/* Línea vertical divisoria */
+.verticalDivider {
+  position: absolute;
+  left: 57%;
+  top: 10%;
+  bottom: 10%;
+  width: 1px;
+  background-color: rgba(255, 255, 255, 0.384);
+  z-index: 5;
+  transform: translateX(-50%);
+}
+
+/* Contenido del lado izquierdo */
+.leftContent {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 50%;
+  height: 100%;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* Distribuye Logos (top), Texto (center), Footer (bottom) */
+  padding: 60px 80px;
+  box-sizing: border-box;
+  text-align: left;
+}
+
+.logosContainer {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+.logoPlaceholder {
+  color: white;
+  font-weight: bold;
+  border: 1px dashed rgba(255,255,255,0.5);
+  padding: 10px;
+  border-radius: 4px;
+}
+
+.textContent {
+  margin-top: auto;
+  margin-bottom: auto;
+  max-width: 90%;
+  text-align: center; /* Centrar todo el bloque de texto */
+}
+
+.mainTitle {
+  font-size: 1.8rem; /* Ajustado un poco para que quepa mejor */
+  font-weight: 700;
+  text-transform: uppercase; /* Mayúsculas como en la imagen */
+  margin-bottom: 25px;
+  line-height: 1.3;
+  color: white;
+  text-align: center; /* Centrado */
+}
+
+.description {
+  font-size: 1.1rem;
+  font-weight: 500; /* Un poco más grueso */
+  line-height: 1.5;
+  color: white; /* Blanco puro */
+  text-align: center; /* Centrado */
+  margin-bottom: 25px;
+}
+
+.slogan {
+  font-size: 1.2rem;
+  font-weight: 400;
+  color: white;
+  text-align: center;
+  margin-top: 20px;
+}
+
+.footerContent {
+  border-left: 2px solid rgba(255, 255, 255, 0.5);
+  padding-left: 15px;
+  margin-top: auto; /* Empuja hacia abajo si es necesario */
+}
+
+.address {
+  font-size: 0.75rem;
+  font-weight: 300;
+  color: rgba(255, 255, 255, 0.8);
+  line-height: 1.4;
+  text-align: left;
+  margin-bottom: 10px;
+}
+
+.privacyLink {
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.6);
+  text-align: left;
+  cursor: pointer;
+}
+
+/* Contenedor Derecho */
+.rightContent {
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 50%;
+  height: 100%;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Formulario */
+.authForm {
+  position: relative;
+  width: 380px;
+  max-width: 90%;
+}
+
+.loginHeading {
+  margin-bottom: 0;
+  text-align: center;
+}
+
+.userIconContainer {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.userIconContainer svg {
+  border: 6px solid white;
+  border-radius: 60%;
+  padding: 20px;
+  width: 100px;
+  height: 100px;
+}
+
+.loginTitle {
+  color: white;
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 40px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.inputGroup {
+  margin-bottom: 40px;
+  text-align: left;
+  position: relative;
+}
+
+.inputLabel {
+  display: block;
+  font-weight: 600;
+  font-size: 1rem;
+  margin-bottom: 8px;
+  color: white;
+}
+
+/* Estilo "Underline" para los inputs */
+.formControl {
+  width: 100%;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.8);
+  border-radius: 0;
+  padding: 8px 0;
+  font-size: 1rem;
+  color: white;
+  outline: none;
+  transition: border-color 0.3s;
+}
+
+.formControl:focus {
+  border-bottom-color: white;
+  border-bottom-width: 2px;
+}
+
+/* Wrapper para password y ojo */
+.passwordWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.eyeButton {
+  position: absolute;
+  right: 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 5px;
+  display: flex;
+  align-items: center;
+  color: white;
+}
+
+.forgotPasswordSection {
+  text-align: right;
+  margin-top: -30px;
+  margin-bottom: 60px;
+}
+
+.forgotPasswordLink {
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.7);
+  text-decoration: none;
+}
+
+.forgotPasswordLink:hover {
+  color: white;
+}
+
+.submitSection {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.btnWhite {
+  background-color: white;
+  color: black;
+  padding: 12px 60px;
+  font-size: 1rem;
+  font-weight: 700;
+  border-radius: 30px;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.1s;
+}
+
+.btnWhite:hover {
+  transform: scale(1.02);
+}
+
+.btnWhite:active {
+  transform: scale(0.98);
+}
+
+.registerSection {
+  text-align: center;
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.registerLink {
+  color: #fbbf24; /* Amarillo/Dorado */
+  text-decoration: none;
+  font-weight: 700;
+  margin-left: 5px;
+  border-bottom: 1px solid transparent;
+}
+
+.registerLink:hover {
+  border-bottom-color: #fbbf24;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .verticalDivider {
+    display: none;
+  }
+  
+  .leftContent {
+    display: none; /* En móviles solemos ocultar el panel decorativo o ponerlo arriba */
+  }
+
+  .rightContent {
+    width: 100%;
+  }
+  
+  .authForm {
+    width: 100%;
+    padding: 40px;
+  }
+}
+
+/* Override Chrome autofill styles to be transparent */
+.formControl:-webkit-autofill,
+.formControl:-webkit-autofill:hover, 
+.formControl:-webkit-autofill:focus, 
+.formControl:-webkit-autofill:active {
+  -webkit-text-fill-color: white !important;
+  transition: background-color 5000s ease-in-out 0s;
+  caret-color: white;
+}

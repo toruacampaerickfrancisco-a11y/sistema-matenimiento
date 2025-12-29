@@ -1,0 +1,59 @@
+.dashboardGrid {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 48px;
+  justify-content: center;
+  margin: 48px 0 32px 0;
+  overflow-x: auto;
+}
+.card {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 2px 12px rgba(123,19,67,0.08);
+  padding: 32px 36px 24px 36px;
+  min-width: 220px;
+  min-height: 180px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  position: relative;
+}
+.icon {
+  width: 60px;
+  height: 40px;
+  margin-bottom: 12px;
+  background: none;
+  /* Aquí puedes poner un SVG o imagen de icono si lo deseas */
+}
+.big {
+  font-size: 64px;
+  font-weight: 800;
+  color: #660033;
+  margin-bottom: 8px;
+}
+.label {
+  font-size: 22px;
+  font-weight: 700;
+  color: #a11a53;
+  text-align: center;
+}
+.cardClickable {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 2px 12px rgba(123,19,67,0.08);
+  padding: 32px 36px 24px 36px;
+  min-width: 220px;
+  min-height: 180px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  position: relative;
+  cursor: pointer;
+  transition: box-shadow 0.2s, transform 0.1s;
+}
+.cardClickable:hover {
+  box-shadow: 0 4px 16px rgba(161,26,83,0.18);
+  transform: translateY(-2px) scale(1.03);
+}

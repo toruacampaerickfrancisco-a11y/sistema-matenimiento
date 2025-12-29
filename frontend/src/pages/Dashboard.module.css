@@ -1,0 +1,366 @@
+/* Dashboard.module.css - Estilos para el dashboard principal */
+
+.dashboard {
+  padding: 0;
+}
+
+.dashboardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: var(--spacing-2xl);
+  padding: var(--spacing-xl);
+  background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+  border-radius: var(--border-radius-xl);
+  color: var(--color-white);
+}
+
+.welcomeSection h1 {
+  font-size: var(--font-size-3xl);
+  font-weight: 700;
+  margin: 0 0 var(--spacing-sm) 0;
+  color: var(--color-white);
+}
+
+.welcomeSubtitle {
+  font-size: var(--font-size-lg);
+  margin: 0;
+  opacity: 0.9;
+}
+
+.dateSection {
+  text-align: right;
+}
+
+.currentDate {
+  font-size: var(--font-size-sm);
+  margin: 0;
+  opacity: 0.8;
+  text-transform: capitalize;
+}
+
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: var(--spacing-xl);
+  margin-bottom: var(--spacing-2xl);
+}
+
+.statCard {
+  background: var(--color-white);
+  padding: var(--spacing-xl);
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--shadow-md);
+  border-left: 4px solid transparent;
+  transition: all var(--transition-base);
+  position: relative;
+  overflow: hidden;
+}
+
+.statCard::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  opacity: 0.1;
+  transform: translate(30px, -30px);
+}
+
+.statCard.primary {
+  border-left-color: var(--color-primary);
+}
+
+.statCard.primary::before {
+  background: var(--color-primary);
+}
+
+.statCard.success {
+  border-left-color: var(--color-success);
+}
+
+.statCard.success::before {
+  background: var(--color-success);
+}
+
+.statCard.warning {
+  border-left-color: var(--color-warning);
+}
+
+.statCard.warning::before {
+  background: var(--color-warning);
+}
+
+.statCard.error {
+  border-left-color: var(--color-error);
+}
+
+.statCard.error::before {
+  background: var(--color-error);
+}
+
+.statCard.info {
+  border-left-color: var(--color-info);
+}
+
+.statCard.info::before {
+  background: var(--color-info);
+}
+
+.statCard:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
+.statHeader {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-lg);
+  margin-bottom: var(--spacing-md);
+}
+
+.statIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 60px;
+  height: 60px;
+  border-radius: var(--border-radius-lg);
+  background: transparent;
+  flex-shrink: 0;
+}
+
+.primary .statIcon {
+  background: transparent;
+}
+
+.success .statIcon {
+  background: transparent;
+}
+
+.warning .statIcon {
+  background: transparent;
+}
+
+.error .statIcon {
+  background: transparent;
+}
+
+.info .statIcon {
+  background: transparent;
+}
+
+.statInfo {
+  flex: 1;
+}
+
+.statValue {
+  font-size: var(--font-size-3xl);
+  font-weight: 700;
+  color: var(--color-gray-900);
+  margin: 0 0 var(--spacing-xs) 0;
+  line-height: 1;
+}
+
+.statTitle {
+  font-size: var(--font-size-base);
+  color: var(--color-gray-600);
+  margin: 0;
+  font-weight: 500;
+}
+
+.statTrend {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  font-size: var(--font-size-sm);
+}
+
+.trendUp {
+  color: var(--color-success);
+}
+
+.trendDown {
+  color: var(--color-error);
+  transform: rotate(180deg);
+}
+
+.trendLabel {
+  color: var(--color-gray-500);
+  font-size: var(--font-size-xs);
+}
+
+.contentGrid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: var(--spacing-2xl);
+}
+
+.recentActivity,
+.quickActions {
+  background: var(--color-white);
+  padding: var(--spacing-xl);
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--shadow-md);
+}
+
+.recentActivity h3,
+.quickActions h3 {
+  color: var(--color-gray-900);
+  font-size: var(--font-size-xl);
+  font-weight: 600;
+  margin: 0 0 var(--spacing-lg) 0;
+  padding-bottom: var(--spacing-md);
+  border-bottom: 2px solid var(--color-gray-100);
+}
+
+.activityList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-lg);
+}
+
+.activityItem {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-md);
+  padding: var(--spacing-md);
+  border-radius: var(--border-radius-md);
+  transition: all var(--transition-fast);
+}
+
+.activityItem:hover {
+  background: var(--color-gray-50);
+}
+
+.activityIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: transparent;
+  flex-shrink: 0;
+}
+
+.activityContent {
+  flex: 1;
+}
+
+.activityContent p {
+  margin: 0 0 var(--spacing-xs) 0;
+  font-size: var(--font-size-sm);
+}
+
+.activityContent p:first-child {
+  color: var(--color-gray-900);
+}
+
+.activityContent p:last-of-type {
+  color: var(--color-gray-600);
+}
+
+.activityContent span {
+  color: var(--color-gray-500);
+  font-size: var(--font-size-xs);
+}
+
+.actionButtons {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+.actionButtons button {
+  justify-content: flex-start;
+}
+
+/* Responsive */
+@media (max-width: 1200px) {
+  .contentGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .dashboard {
+    padding: 0;
+  }
+
+  .dashboardHeader {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--spacing-lg);
+    padding: var(--spacing-lg);
+    margin-bottom: var(--spacing-xl);
+  }
+
+  .welcomeSection h1 {
+    font-size: var(--font-size-2xl);
+  }
+
+  .welcomeSubtitle {
+    font-size: var(--font-size-base);
+  }
+
+  .dateSection {
+    text-align: left;
+    width: 100%;
+  }
+
+  .statsGrid {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-lg);
+    margin-bottom: var(--spacing-xl);
+  }
+
+  .statCard {
+    padding: var(--spacing-lg);
+  }
+
+  .statHeader {
+    gap: var(--spacing-md);
+  }
+
+  .statIcon {
+    width: 50px;
+    height: 50px;
+  }
+
+  .statValue {
+    font-size: var(--font-size-2xl);
+  }
+
+  .recentActivity,
+  .quickActions {
+    padding: var(--spacing-lg);
+  }
+}
+
+@media (max-width: 480px) {
+  .dashboardHeader {
+    padding: var(--spacing-md);
+  }
+
+  .welcomeSection h1 {
+    font-size: var(--font-size-xl);
+  }
+
+  .statCard {
+    padding: var(--spacing-md);
+  }
+
+  .statHeader {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .recentActivity,
+  .quickActions {
+    padding: var(--spacing-md);
+  }
+}

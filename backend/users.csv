@@ -1,0 +1,13 @@
+numero_empleado,usuario,correo,contrasena,dependencia,departamento,rol,cargo,area,creado_por,nombre_completo,activo
+EMP001,juanperez,juan.perez@ejemplo.com,usuario123,Finanzas,Contabilidad,usuario,Contador,Administración,admin,Juan Perez,true
+EMP002,mariagarcia,maria.garcia@ejemplo.com,usuario123,Recursos Humanos,Recursos Humanos,admin,Jefa,Administración,admin,Maria Garcia,true
+EMP1764000622128,testuser_1764000622128,test_1764000622128@example.com,usuario123,Secretaría de Bienestar,SISTEMAS,technician,Empleado,General,admin,Usuario de Prueba,true
+EMP1764000444754,testuser_1764000444754,test_1764000444754@example.com,usuario123,Secretaría de Bienestar,SISTEMAS,technician,Empleado,General,admin,Usuario de Prueba,true
+47594,francisco.villao,francisco.villao@sonora.gob.mx,usuario123,Secretaría de Bienestar,DIRECCION GENERAL DE DESARROLLO REGIONAL,user,Empleado,General,admin,VILLA ORTIZ FRANCISCO ALBERTO,true
+81581,omar.valencia,omar.valencia@sedesson.gob.mx,usuario123,Secretaría de Bienestar,DIRECCION GENERAL DE PARTICIPACION SOCIAL,user,Empleado,General,admin,VALENCIA LOPEZ OMAR,true
+82961,arturo.sanchez,arturo.sanchez@sedesson.gob.mx,usuario123,Secretaría de Bienestar,DIRECCION GENERAL DE BIENESTAR SOCIAL,user,Empleado,General,admin,SANCHEZ FLORES ARTURO,true
+12802,Adalberto.ruiz,Adalberto.ruiz@sedesson.gob.mx,usuario123,Secretaría de Bienestar,SUBSECRETARIA DE INFRAESTRUCTURA SOCIAL,user,Empleado,General,admin,RUIZ GAMEZ ADALBERTO,true
+46700,rafaael.romo,rafaael.romo@sedesson.gob.mx,usuario123,Secretaría de Bienestar,DIRECCION GENERAL DE BIENESTAR SOCIAL,user,Empleado,General,admin,ROMO QUIROZ RAFAEL OSWALDO,true
+47783,juan.romerol,juan.romerol@sonora.gob.mx,usuario123,Secretaría de Bienestar,DIRECCION GENERAL DE INFRAESTRUCTURA SOCIAL,user,Empleado,General,admin,ROMERO LOYA JUAN,true
+47752,miriam.rodriguez,miriam.rodriguez@sedesson.gob.mx,usuario123,Secretaría de Bienestar,DIRECCION GENERAL DE PARTICIPACION SOCIAL,user,Empleado,General,admin,RODRIGUEZ MENDOZA MIRIAM ALEJANDRA,true
+42954,karla.rivas,karla.rivas@sonora.gob.mx,usuario123,Secretaría de Bienestar,DIRECCION GENERAL DE ADMINISTRACION Y PLANEACION,user,Empleado,General,admin,RIVAS NORIEGA KARLA GUADALUPE,true

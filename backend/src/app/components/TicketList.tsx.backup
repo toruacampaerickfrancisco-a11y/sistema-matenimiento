@@ -1,0 +1,709 @@
+"use client";
+
+import { useEffect, useMemo, useState, useRef } from 'react';
+import TicketDetails from './TicketDetails';
+import ActionButtons from './ActionButtons';
+import TicketReportButtons from './TicketReportButtons';
+import Pagination from './Pagination';
+import styles from './Table.module.css';
+import { usePreciseUpdates } from './hooks/usePreciseUpdates';
+import { useColumnAutoSize, ColumnConfig } from './hooks/useColumnAutoSize';
+
+
+export default function TicketList() {
+  const [tickets, setTickets] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [selected, setSelected] = useState<any | null>(null);
+  const [q, setQ] = useState('');
+  const [statusFilter, setStatusFilter] = useState('');
+  const [serviceTypeFilter, setServiceTypeFilter] = useState('');
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(10);
+  const [total, setTotal] = useState(0);
+  const [sortBy, setSortBy] = useState('createdAt');
+  const [sortDir, setSortDir] = useState<'asc' | 'desc'>('desc');
+  const columns = ['id', 'userId', 'equipmentId', 'serviceType', 'observations', 'status', 'createdAt'];
+  const [currentUser, setCurrentUser] = useState<any>(null);
+
+  // 🚀 Sistema de autoajuste de columnas para tickets
+  const tableContainerRef = useRef<HTMLDivElement>(null);
+  
+  const columnConfig: ColumnConfig[] = [
+    { key: 'id', label: 'ID', minWidth: 60, maxWidth: 100, priority: 'high', flexible: false },
+    { key: 'userId', label: 'Usuario', minWidth: 120, maxWidth: 180, priority: 'high', flexible: true },
+    { key: 'equipmentId', label: 'Equipo', minWidth: 100, maxWidth: 140, priority: 'medium', flexible: true },
+    { key: 'serviceType', label: 'Tipo Servicio', minWidth: 120, maxWidth: 180, priority: 'high', flexible: true },
+    { key: 'observations', label: 'Observaciones', minWidth: 200, maxWidth: 300, priority: 'medium', flexible: true },
+    { key: 'status', label: 'Estado', minWidth: 90, maxWidth: 120, priority: 'high', flexible: false },
+    { key: 'createdAt', label: 'Fecha', minWidth: 110, maxWidth: 140, priority: 'medium', flexible: false },
+    { key: 'actions', label: 'Acciones', minWidth: 120, maxWidth: 150, priority: 'high', flexible: false }
+  ];
+
+  const { getColumnClass, debug } = useColumnAutoSize(
+    columnConfig,
+    tableContainerRef,
+    {
+      minTableWidth: 800,
+      maxTableWidth: 1500,
+      padding: 40,
+      enableHiding: true
+    }
+  );
+
+  // Obtener el usuario actual del localStorage
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem('currentUser');
+      if (raw) setCurrentUser(JSON.parse(raw));
+    } catch (_) {}
+  }, []);
+
+  // � TEMPORALMENTE DESHABILITADO para optimización
+  // const { isConnected } = useRealtime({
+  //   userId: currentUser?.id || 'guest',
+  //   enableSmartUpdates: true,
+  //   reconnectInterval: 30000, // Reconectar cada 30 segundos
+  //   onEvent: (event) => {
+  //     if (event.type === 'new-ticket-for-technicians' || event.type === 'ticket-updated') {
+  //       // Forzar actualización inmediata solo cuando hay eventos relevantes
+  //       // forceTicketUpdate();
+  //     }
+  //   },
+  // });
+  const isConnected = false; // Placeholder temporal
+
+  // 🎯 Sistema de actualización por eventos precisos para tickets
+  const { data: ticketsData, forceUpdate: forceTicketUpdate, triggerEvent } = usePreciseUpdates({
+    endpoint: '/api/tickets',
+    eventTypes: ['ticket-created', 'ticket-updated', 'ticket-deleted'],
+    enabled: !!currentUser,
+    onUpdate: (data) => {
+      let ticketsList = data.tickets || [];
+      // Filtrar por rol sin mostrar loading
+      if (currentUser && currentUser.role === 'user') {
+        ticketsList = ticketsList.filter((t: any) => t.userId === currentUser.id);
+      }
+      
+      setTickets(ticketsList);
+      setTotal(ticketsList.length);
+    },
+    cacheKey: `tickets-${currentUser?.role}-${currentUser?.id}`
+  });
+
+  // Función para cargar tickets con loading visible
+  const loadTickets = async () => {
+    setLoading(true);
+    await loadTicketsData();
+    setLoading(false);
+  };
+
+  // Función para cargar tickets silenciosamente (sin loading visible)
+  const loadTicketsSilently = async () => {
+    await loadTicketsData();
+  };
+
+  // Función base para cargar datos de tickets
+  const loadTicketsData = async () => {
+    try {
+      const params = new URLSearchParams();
+      if (q) params.append('q', q);
+      if (statusFilter) params.append('status', statusFilter);
+      params.append('page', String(currentPage));
+      params.append('pageSize', String(itemsPerPage));
+      params.append('sortBy', sortBy);
+      params.append('sortDir', sortDir);
+      
+      const res = await fetch(`/api/tickets?${params.toString()}`);
+      if (!res.ok) throw new Error('Failed');
+      const data = await res.json().catch(() => ({}));
+      
+      let ticketsList = data.tickets || [];
+      // Si el usuario es 'user', filtrar solo sus tickets
+      if (currentUser && currentUser.role === 'user') {
+        ticketsList = ticketsList.filter((t: any) => t.userId === currentUser.id);
+      }
+      
+      // Solo actualizar si hay cambios reales
+      const hasChanges = JSON.stringify(ticketsList) !== JSON.stringify(tickets);
+      if (hasChanges) {
+        setTickets(ticketsList);
+        setTotal(ticketsList.length);
+      }
+    } catch (err) {
+      console.error('Error cargando tickets:', err);
+    }
+  };
+
+  // Cargar datos inicial solo cuando cambian filtros (con loading visible)
+  useEffect(() => {
+    if (currentUser) {
+      loadTickets(); // Solo mostrar loading en cambios de filtro
+    }
+  }, [q, statusFilter, serviceTypeFilter, currentPage, itemsPerPage, sortBy, sortDir, currentUser]);
+
+  // 📄 Filtro local y paginación para tickets
+  const filteredTickets = useMemo(() => {
+    let list = tickets;
+    
+    // Filtro de búsqueda por texto
+    const term = q?.trim().toLowerCase();
+    if (term) {
+      list = list.filter((t) => {
+        if (!t) return false;
+        const id = String(t.id || '').toLowerCase();
+        const serviceType = String(t.serviceType || '').toLowerCase();
+        const status = String(t.status || '').toLowerCase();
+        const observations = String(t.observations || '').toLowerCase();
+        const userName = String(t.user?.name || t.userId || '').toLowerCase();
+        const equipmentType = String(t.equipment?.type || '').toLowerCase();
+        return id.includes(term) || serviceType.includes(term) || status.includes(term) || 
+               observations.includes(term) || userName.includes(term) || equipmentType.includes(term);
+      });
+    }
+    
+    // Filtro por estado
+    if (statusFilter && statusFilter !== 'todos' && statusFilter !== '') {
+      list = list.filter((t) => String(t.status || '') === statusFilter);
+    }
+    
+    // Filtro por tipo de servicio
+    if (serviceTypeFilter && serviceTypeFilter !== '') {
+      list = list.filter((t) => {
+        const serviceType = String(t.serviceType || '').toLowerCase();
+        const filterLower = serviceTypeFilter.toLowerCase();
+        return serviceType.includes(filterLower);
+      });
+    }
+    
+    return list;
+  }, [tickets, q, statusFilter, serviceTypeFilter]);
+
+  const totalItems = filteredTickets.length;
+  const totalPages = Math.ceil(totalItems / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const paginatedTickets = filteredTickets.slice(startIndex, endIndex);
+
+  // Resetear página cuando cambien los filtros
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [q, statusFilter, serviceTypeFilter]);
+
+  function handleSaved(updated: any) {
+    setTickets((s) => s.map((t) => (t.id === updated.id ? { ...t, ...updated } : t)));
+    
+    // 🔥 Disparar evento de ticket actualizado
+    triggerEvent('ticket-updated', { ticket: updated });
+  }
+
+
+
+  return (
+    <div style={{ 
+      width: '100%', 
+      display: 'flex', 
+      flexDirection: 'column', 
+      alignItems: 'center',
+      maxWidth: '1400px',
+      margin: '0 auto',
+      padding: '0 20px'
+    }}>
+      {/* Filtros y controles reorganizados como las imágenes */}
+      <div style={{ 
+        display: 'flex', 
+        flexWrap: 'wrap',
+        gap: '16px 20px', 
+        marginBottom: 20,
+        width: '100%',
+        alignItems: 'flex-end'
+      }}>
+        <div style={{ order: 1 }}>
+            <label style={{ 
+              display: 'block', 
+              fontSize: '11px', 
+              fontWeight: '500', 
+              color: '#9ca3af', 
+              marginBottom: '6px',
+              textTransform: 'uppercase',
+              letterSpacing: '0.5px'
+            }}>
+              ESTADO
+            </label>
+            <select
+              value={statusFilter}
+              onChange={(e) => { setStatusFilter((e.target as HTMLSelectElement).value); setCurrentPage(1); }}
+              style={{
+                width: '260px',
+                height: '42px',
+                padding: '0 16px 0 12px',
+                border: '1px solid #e5e7eb',
+                borderRadius: '8px',
+                fontSize: '14px',
+                backgroundColor: 'white',
+                color: '#4b5563',
+                cursor: 'pointer',
+                appearance: 'none',
+                backgroundImage: 'url("data:image/svg+xml,%3csvg xmlns=\'http://www.w3.org/2000/svg\' fill=\'none\' viewBox=\'0 0 20 20\'%3e%3cpath stroke=\'%236b7280\' stroke-linecap=\'round\' stroke-linejoin=\'round\' stroke-width=\'1.5\' d=\'M6 8l4 4 4-4\'/%3e%3c/svg%3e")',
+                backgroundPosition: 'right 12px center',
+                backgroundRepeat: 'no-repeat',
+                backgroundSize: '16px'
+              }}
+            >
+              <option value="">Todos los Estados</option>
+              <option value="nuevo">🆕 Nuevo</option>
+              <option value="en_proceso">⚙️ En Proceso</option>
+              <option value="cerrado">✅ Cerrado</option>
+            </select>
+          </div>
+
+          <div style={{ order: 2 }}>
+            <label style={{ 
+              display: 'block', 
+              fontSize: '11px', 
+              fontWeight: '500', 
+              color: '#9ca3af', 
+              marginBottom: '6px',
+              textTransform: 'uppercase',
+              letterSpacing: '0.5px'
+            }}>
+              TIPO DE SERVICIO
+            </label>
+            <select
+              value={serviceTypeFilter}
+              onChange={(e) => { setServiceTypeFilter((e.target as HTMLSelectElement).value); setCurrentPage(1); }}
+              style={{
+                width: '200px',
+                height: '42px',
+                padding: '0 16px 0 12px',
+                border: '1px solid #e5e7eb',
+                borderRadius: '8px',
+                fontSize: '14px',
+                backgroundColor: 'white',
+                color: '#4b5563',
+                cursor: 'pointer',
+                appearance: 'none',
+                backgroundImage: 'url("data:image/svg+xml,%3csvg xmlns=\'http://www.w3.org/2000/svg\' fill=\'none\' viewBox=\'0 0 20 20\'%3e%3cpath stroke=\'%236b7280\' stroke-linecap=\'round\' stroke-linejoin=\'round\' stroke-width=\'1.5\' d=\'M6 8l4 4 4-4\'/%3e%3c/svg%3e")',
+                backgroundPosition: 'right 12px center',
+                backgroundRepeat: 'no-repeat',
+                backgroundSize: '16px'
+              }}
+            >
+              <option value="">Todos los Servicios</option>
+              <option value="Preventivo">🔧 Mantenimiento Preventivo</option>
+              <option value="Correctivo">⚙️ Mantenimiento Correctivo</option>
+              <option value="Instalación">💾 Instalación de Software</option>
+              <option value="Reparación">🛠️ Reparación</option>
+            </select>
+          </div>
+
+          <div style={{ order: 3 }}>
+            <label style={{ 
+              display: 'block', 
+              fontSize: '11px', 
+              fontWeight: '500', 
+              color: '#9ca3af', 
+              marginBottom: '6px',
+              textTransform: 'uppercase',
+              letterSpacing: '0.5px'
+            }}>
+              MOSTRAR
+            </label>
+            <select
+              value={itemsPerPage}
+              onChange={(e) => { setItemsPerPage(Number((e.target as HTMLSelectElement).value)); setCurrentPage(1); }}
+              style={{
+                width: '200px',
+                height: '42px',
+                padding: '0 16px 0 12px',
+                border: '1px solid #e5e7eb',
+                borderRadius: '8px',
+                fontSize: '14px',
+                backgroundColor: 'white',
+                color: '#4b5563',
+                cursor: 'pointer',
+                appearance: 'none',
+                backgroundImage: 'url("data:image/svg+xml,%3csvg xmlns=\'http://www.w3.org/2000/svg\' fill=\'none\' viewBox=\'0 0 20 20\'%3e%3cpath stroke=\'%236b7280\' stroke-linecap=\'round\' stroke-linejoin=\'round\' stroke-width=\'1.5\' d=\'M6 8l4 4 4-4\'/%3e%3c/svg%3e")',
+                backgroundPosition: 'right 12px center',
+                backgroundRepeat: 'no-repeat',
+                backgroundSize: '16px'
+              }}
+            >
+              <option value={10}>10</option>
+              <option value={25}>25</option>
+              <option value={50}>50</option>
+            </select>
+          </div>
+        </div>
+        
+        {/* Campo de búsqueda */}
+        <div style={{ 
+          order: 4,
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '6px'
+        }}>
+          <label style={{ 
+            fontSize: '11px', 
+            fontWeight: '500', 
+            color: '#9ca3af', 
+            textTransform: 'uppercase',
+            letterSpacing: '0.5px'
+          }}>
+            BÚSQUEDA
+          </label>
+          <div style={{
+            position: 'relative',
+            display: 'flex',
+            alignItems: 'center',
+            width: '300px'
+          }}>
+            <span style={{
+              position: 'absolute',
+              left: '14px',
+              fontSize: '16px',
+              color: '#9ca3af',
+              zIndex: 1
+            }}>
+              🔍
+            </span>
+            <input
+              type="text"
+              value={q}
+              onChange={(e) => setQ((e.target as HTMLInputElement).value)}
+              placeholder="Buscar tickets..."
+              style={{
+                width: '100%',
+                height: '42px',
+                padding: '0 16px 0 40px',
+                border: '1px solid #e5e7eb',
+                borderRadius: '8px',
+                fontSize: '14px',
+                backgroundColor: 'white',
+                color: '#4b5563',
+                outline: 'none',
+                boxShadow: 'none'
+              }}
+            />
+          </div>
+        </div>
+          
+        {/* Botón de exportar */}
+        <div style={{ 
+          order: 5,
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '6px'
+        }}>
+          <label style={{ 
+            fontSize: '11px', 
+            fontWeight: '500', 
+            color: '#9ca3af', 
+            textTransform: 'uppercase',
+            letterSpacing: '0.5px'
+          }}>
+            EXPORTAR
+          </label>
+          <button 
+          onClick={() => {
+            const csvContent = "data:text/csv;charset=utf-8," + 
+              "ID,Usuario,Equipo,Servicio,Estado,Fecha Creación\n" +
+              tickets.map(t => 
+                `${t.id},"${t.userId}","${t.equipmentId}","${t.serviceType}","${t.status}","${new Date(t.createdAt).toLocaleDateString()}"`
+                ).join("\n");
+            const encodedUri = encodeURI(csvContent);
+            const link = document.createElement("a");
+            link.setAttribute("href", encodedUri);
+            link.setAttribute("download", "tickets.csv");
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+          }}
+          style={{ 
+            background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)', 
+            color: 'white', 
+            borderRadius: '8px', 
+            padding: '0 20px', 
+            border: 'none', 
+            display: 'flex', 
+            alignItems: 'center', 
+            gap: 8,
+            fontSize: '14px',
+            fontWeight: '600',
+            cursor: 'pointer',
+            height: '42px',
+            whiteSpace: 'nowrap',
+            minWidth: 'fit-content',
+            boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
+            transition: 'all 0.2s ease'
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.background = 'linear-gradient(135deg, #059669 0%, #047857 100%)';
+            e.currentTarget.style.transform = 'translateY(-1px)';
+            e.currentTarget.style.boxShadow = '0 4px 8px rgba(16, 185, 129, 0.3)';
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.background = 'linear-gradient(135deg, #10b981 0%, #059669 100%)';
+            e.currentTarget.style.transform = 'translateY(0)';
+            e.currentTarget.style.boxShadow = '0 2px 4px rgba(0, 0, 0, 0.1)';
+          }}
+        >
+          📊 Exportar
+        </button>
+        </div>
+      </div>
+      
+      <div 
+        ref={tableContainerRef}
+        className={`${styles.tableWrapper} ${styles.large}`} 
+        style={{ 
+          width: '100%',
+          overflowX: 'auto',
+          overflowY: 'visible',
+          border: '1px solid #e5e7eb',
+          borderRadius: '12px',
+          position: 'relative'
+        }}
+      >
+        {/* 🚀 Indicador de autoajuste */}
+        <div style={{
+          position: 'absolute',
+          top: '10px',
+          right: '10px',
+          fontSize: '12px',
+          color: '#10b981',
+          background: 'rgba(16, 185, 129, 0.1)',
+          padding: '4px 8px',
+          borderRadius: '4px',
+          border: '1px solid rgba(16, 185, 129, 0.3)'
+        }}>
+          📊 {debug.visibleColumns}/{debug.totalColumns} cols | {debug.screenCategory} | {debug.tableWidth}px
+        </div>
+        
+        <table className={styles.table}>
+          <thead className={styles.thead}>
+            <tr>
+              <th className={`${styles.th} ${styles.colId} ${styles.columnResponsive}`} style={getColumnClass('id').style}>
+                ID
+              </th>
+              <th className={`${styles.th} ${styles.colUserId} ${styles.columnResponsive}`} style={getColumnClass('userId').style}>
+                Usuario
+              </th>
+              <th className={`${styles.th} ${styles.colEquipmentId} ${styles.columnResponsive}`} style={getColumnClass('equipmentId').style}>
+                Equipo
+              </th>
+              <th className={`${styles.th} ${styles.colServiceType} ${styles.columnResponsive}`} style={getColumnClass('serviceType').style}>
+                Tipo de Servicio
+              </th>
+              <th className={`${styles.th} ${styles.colObservations} ${styles.columnResponsive}`} style={getColumnClass('observations').style}>
+                Descripción
+              </th>
+              <th className={`${styles.th} ${styles.colStatus} ${styles.columnResponsive}`} style={getColumnClass('status').style}>
+                Estado
+              </th>
+              <th className={`${styles.th} ${styles.colCreatedAt} ${styles.columnResponsive}`} style={getColumnClass('createdAt').style}>
+                Fecha
+              </th>
+              <th className={`${styles.th} ${styles.colActions} ${styles.columnResponsive}`} style={getColumnClass('actions').style}>
+                Acciones
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {tickets.length === 0 ? (
+              <tr><td className={styles.td} colSpan={8}>No hay tickets.</td></tr>
+            ) : (
+              paginatedTickets.map((t) => (
+                <tr key={t.id} className={styles.tr}>
+                  {/* ID */}
+                  <td 
+                    className={`${styles.td} ${styles.colId} ${styles.columnResponsive}`} 
+                    style={{
+                      ...getColumnClass('id').style,
+                      ...(sortBy === 'id' ? { background: 'rgba(59,130,246,0.04)', fontWeight: 600 } : {})
+                    }}
+                  >
+                    <span style={{ fontFamily: 'monospace', fontSize: '0.85em', color: '#1d4ed8' }}>
+                      {t.id}
+                    </span>
+                  </td>
+                  
+                  {/* Usuario */}
+                  <td 
+                    className={`${styles.td} ${styles.colUserId} ${styles.columnResponsive}`} 
+                    style={{
+                      ...getColumnClass('userId').style,
+                      ...(sortBy === 'userId' ? { background: 'rgba(59,130,246,0.04)', fontWeight: 600 } : {})
+                    }}
+                  >
+                    <span style={{ fontWeight: '500' }}>
+                      {t.user?.name || t.userId || '-'}
+                    </span>
+                  </td>
+                  
+                  {/* Equipo */}
+                  <td 
+                    className={`${styles.td} ${styles.colEquipmentId} ${styles.columnResponsive}`} 
+                    style={{
+                      ...getColumnClass('equipmentId').style,
+                      ...(sortBy === 'equipmentId' ? { background: 'rgba(59,130,246,0.04)', fontWeight: 600 } : {})
+                    }}
+                  >
+                    <div>
+                      <div style={{ fontWeight: '500', fontSize: '0.9em' }}>
+                        {t.equipment?.type || 'N/A'}
+                      </div>
+                      {t.equipment?.brand && (
+                        <div style={{ fontSize: '0.8em', color: '#6b7280' }}>
+                          {t.equipment.brand} {t.equipment.model}
+                        </div>
+                      )}
+                    </div>
+                  </td>
+                  
+                  {/* Tipo de Servicio */}
+                  <td 
+                    className={`${styles.td} ${styles.colServiceType} ${styles.columnResponsive}`} 
+                    style={{
+                      ...getColumnClass('serviceType').style,
+                      ...(sortBy === 'serviceType' ? { background: 'rgba(59,130,246,0.04)', fontWeight: 600 } : {})
+                    }}
+                  >
+                    <span 
+                      className={styles.badge} 
+                      style={{
+                        backgroundColor: t.serviceType?.includes('Preventivo') ? '#f0f9ff' : 
+                                       t.serviceType?.includes('Correctivo') ? '#fefce8' : 
+                                       t.serviceType?.includes('Instalación') ? '#f0fdf4' : '#f9fafb',
+                        color: t.serviceType?.includes('Preventivo') ? '#0369a1' : 
+                               t.serviceType?.includes('Correctivo') ? '#ca8a04' : 
+                               t.serviceType?.includes('Instalación') ? '#166534' : '#374151',
+                        border: `1px solid ${t.serviceType?.includes('Preventivo') ? '#bae6fd' : 
+                                             t.serviceType?.includes('Correctivo') ? '#fde047' : 
+                                             t.serviceType?.includes('Instalación') ? '#bbf7d0' : '#e5e7eb'}`,
+                        padding: '2px 8px',
+                        borderRadius: '12px',
+                        fontSize: '0.75em',
+                        fontWeight: '500'
+                      }}
+                    >
+                      {t.serviceType || 'No especificado'}
+                    </span>
+                  </td>
+                  
+                  {/* Descripción */}
+                  <td 
+                    className={`${styles.td} ${styles.colObservations} ${styles.columnResponsive}`} 
+                    style={{
+                      ...getColumnClass('observations').style,
+                      ...(sortBy === 'observations' ? { background: 'rgba(59,130,246,0.04)', fontWeight: 600 } : {})
+                    }}
+                  >
+                    <div style={{ maxWidth: '200px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                      {t.observations || 'Sin descripción'}
+                    </div>
+                  </td>
+                  
+                  {/* Estado */}
+                  <td 
+                    className={`${styles.td} ${styles.colStatus} ${styles.columnResponsive}`} 
+                    style={{
+                      ...getColumnClass('status').style,
+                      ...(sortBy === 'status' ? { background: 'rgba(59,130,246,0.04)', fontWeight: 600 } : {})
+                    }}
+                  >
+                    <span 
+                      className={styles.badge}
+                      style={{
+                        backgroundColor: t.status === 'nuevo' ? '#fef2f2' : 
+                                       t.status === 'en_proceso' ? '#fff7ed' : 
+                                       t.status === 'cerrado' ? '#f0fdf4' : '#f9fafb',
+                        color: t.status === 'nuevo' ? '#dc2626' : 
+                               t.status === 'en_proceso' ? '#ea580c' : 
+                               t.status === 'cerrado' ? '#16a34a' : '#374151',
+                        border: `1px solid ${t.status === 'nuevo' ? '#fecaca' : 
+                                             t.status === 'en_proceso' ? '#fed7aa' : 
+                                             t.status === 'cerrado' ? '#bbf7d0' : '#e5e7eb'}`,
+                        padding: '2px 8px',
+                        borderRadius: '12px',
+                        fontSize: '0.75em',
+                        fontWeight: '500'
+                      }}
+                    >
+                      {t.status === 'nuevo' ? '🆕 Nuevo' : 
+                       t.status === 'en_proceso' ? '⚙️ En Proceso' : 
+                       t.status === 'cerrado' ? '✅ Cerrado' : t.status}
+                    </span>
+                  </td>
+                  
+                  {/* Fecha */}
+                  <td 
+                    className={`${styles.td} ${styles.colCreatedAt} ${styles.columnResponsive}`} 
+                    style={{
+                      ...getColumnClass('createdAt').style,
+                      ...(sortBy === 'createdAt' ? { background: 'rgba(59,130,246,0.04)', fontWeight: 600 } : {})
+                    }}
+                  >
+                    <div style={{ fontSize: '0.85em' }}>
+                      <div style={{ fontWeight: '500' }}>
+                        {t.createdAt ? new Date(t.createdAt).toLocaleDateString('es-MX', {
+                          day: '2-digit',
+                          month: 'short',
+                          year: 'numeric'
+                        }) : '-'}
+                      </div>
+                      <div style={{ color: '#6b7280', fontSize: '0.9em' }}>
+                        {t.createdAt ? new Date(t.createdAt).toLocaleTimeString('es-MX', {
+                          hour: '2-digit',
+                          minute: '2-digit'
+                        }) : ''}
+                      </div>
+                    </div>
+                  </td>
+                  
+                  <td 
+                    className={`${styles.actionsCell} ${styles.colActions} ${styles.columnResponsive}`}
+                    style={getColumnClass('actions').style}
+                  >
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                      <ActionButtons
+                        onView={() => setSelected(t)}
+                        onEdit={() => setSelected(t)}
+                        onDelete={async () => {
+                          if (!confirm('¿Eliminar este ticket?')) return;
+                          try {
+                            const res = await fetch(`/api/tickets/${t.id}`, { method: 'DELETE' });
+                            if (!res.ok) throw new Error('Error');
+                            setTickets(s => s.filter(x => x.id !== t.id));
+                          } catch (err) {
+                            alert('No se pudo eliminar el ticket');
+                          }
+                        }}
+                        size={12}
+                      />
+                      <TicketReportButtons 
+                        ticket={t} 
+                        size="small"
+                      />
+                    </div>
+                  </td>
+                </tr>
+              ))
+            )}
+          </tbody>
+        </table>
+      </div>
+
+      {/* 📄 Componente de Paginación */}
+      <Pagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        totalItems={totalItems}
+        itemsPerPage={itemsPerPage}
+        onPageChange={setCurrentPage}
+        onItemsPerPageChange={setItemsPerPage}
+      />
+
+      {selected ? <TicketDetails ticket={selected} onClose={() => setSelected(null)} onSaved={handleSaved} /> : null}
+    </div>
+  );
+}

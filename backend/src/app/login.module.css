@@ -1,0 +1,334 @@
+@keyframes autofillFix {
+  to {
+    background: transparent;
+    color: white;
+  }
+}
+.input:-webkit-autofill {
+  animation-name: autofillFix;
+  animation-fill-mode: both;
+  animation-duration: 5000s;
+  background: transparent !important;
+  box-shadow: 0 0 0px 1000px transparent inset !important;
+  -webkit-text-fill-color: white !important;
+}
+.input {
+  position: relative;
+  z-index: 1;
+}
+.input::-webkit-input-placeholder { color: rgba(255,255,255,0.7); }
+.input::placeholder { color: rgba(255,255,255,0.7); }
+.input[data-has-value="true"]::after {
+  content: '';
+  position: absolute;
+  left: 0; top: 0; right: 0; bottom: 0;
+  background: transparent !important;
+  pointer-events: none;
+  z-index: 2;
+}
+/* Forzar fondo transparente en todos los inputs del login, incluso autofill y focus */
+.input, .input:focus, .input:active, .input:-webkit-autofill, .input:-webkit-autofill:focus, .input:-webkit-autofill:active {
+  background: transparent !important;
+  box-shadow: 0 0 0px 1000px transparent inset !important;
+  outline: none !important;
+  border-bottom: 1px solid rgba(255,255,255,0.6);
+  color: white !important;
+}
+.root {
+  display: flex;
+  min-height: 100vh;
+  font-family: Inter, Arial, Helvetica, sans-serif;
+  position: relative;
+  background-size: cover;
+  background-position: center;
+}
+
+.hero {
+  flex: 1 1 50%;
+  position: relative;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  /* overlay con el color púrpura/magenta personalizado */
+  background: rgba(169, 31, 121, 0.75);
+  z-index: 1;
+}
+
+.heroInner {
+  position: relative;
+  z-index: 5;
+  max-width: 720px;
+  padding: 40px;
+  text-align: center;
+}
+
+/* Estilos para el título de la organización */
+.organizationTitle {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.logoRow img { 
+  height: 56px; 
+  margin: 0 12px; 
+  /* Ocultar imágenes por defecto si existen */
+  display: none !important;
+}
+
+.title { 
+  font-size: 36px; 
+  font-weight: 700; 
+  margin-bottom: 12px; 
+  letter-spacing: 1px;
+}
+.lead { font-size: 18px; font-weight: 600; margin-bottom: 10px; }
+.muted { opacity: 0.95; font-size: 14px; }
+
+.divider {
+  width: 1px;
+  background: rgba(255,255,255,0.18);
+  position: absolute;
+  top: 6%;
+  bottom: 6%;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 3;
+}
+
+.panel {
+  flex: 1 1 50%;
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  position: relative;
+  z-index: 5;
+}
+
+.card {
+  width: 480px;
+  background: transparent;
+  padding: 24px 36px;
+  color: white;
+  position: relative;
+  z-index: 6;
+}
+
+.card.transparent {
+  background: rgba(255,255,255,0.06);
+  backdrop-filter: blur(6px);
+  border-radius: 12px;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.45);
+}
+
+.heading { font-size: 20px; font-weight: 700; margin-bottom: 12px; text-align:center; color: #fff; text-shadow: 0 3px 8px rgba(0,0,0,0.6); }
+
+.iconWrap { display:flex; align-items:center; justify-content:center; margin-bottom:18px }
+.iconCircle { width:84px; height:84px; border-radius:999px; border:4px solid rgba(255,255,255,0.85); display:flex; align-items:center; justify-content:center; }
+.iconCircle svg { fill: rgba(255,255,255,0.95); width:36px; height:36px }
+
+
+.input {
+  width: 100%;
+  padding: 10px 12px;
+  border: none;
+  border-bottom: 1px solid rgba(255,255,255,0.6);
+  margin-bottom: 18px;
+  background: rgba(255,255,255,0.01) !important;
+  color: white;
+  box-shadow: none !important;
+  outline: none;
+  transition: background 0.2s;
+  position: relative;
+  z-index: 1;
+}
+.input:focus, .input:active, .input:-webkit-autofill, .input:-webkit-autofill:focus, .input:-webkit-autofill:active {
+  background: rgba(255,255,255,0.01) !important;
+  box-shadow: 0 0 0px 1000px rgba(255,255,255,0.01) inset !important;
+  outline: none !important;
+}
+.input[data-has-value="true"]::after {
+  content: '';
+  position: absolute;
+  left: 0; top: 0; right: 0; bottom: 0;
+  background: rgba(255,255,255,0.01) !important;
+  pointer-events: none;
+  z-index: 2;
+}
+.input:focus, .input:active, .input:visited, .input:enabled, .input:disabled, .input:read-only, .input:read-write {
+  background: transparent !important;
+  box-shadow: none !important;
+  outline: none !important;
+}
+.input:-webkit-autofill,
+textarea.input:-webkit-autofill,
+select.input:-webkit-autofill,
+.input:-webkit-autofill:hover,
+textarea.input:-webkit-autofill:hover,
+select.input:-webkit-autofill:hover,
+.input:-webkit-autofill:focus,
+textarea.input:-webkit-autofill:focus,
+select.input:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0px 1000px transparent inset !important;
+  box-shadow: 0 0 0px 1000px transparent inset !important;
+  -webkit-text-fill-color: white !important;
+  background: transparent !important;
+  outline: none !important;
+}
+.input::placeholder { color: rgba(255,255,255,0.7); }
+.input:focus {
+  outline: none;
+  border-bottom-color: rgba(255,255,255,0.95);
+  background: transparent !important;
+}
+.input:active, .input:visited, .input:enabled, .input:disabled, .input:read-only, .input:read-write {
+  background: transparent !important;
+  box-shadow: none !important;
+}
+.input:-webkit-autofill,
+textarea.input:-webkit-autofill,
+select.input:-webkit-autofill,
+.input:-webkit-autofill:hover,
+textarea.input:-webkit-autofill:hover,
+select.input:-webkit-autofill:hover,
+.input:-webkit-autofill:focus,
+textarea.input:-webkit-autofill:focus,
+select.input:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0px 1000px transparent inset !important;
+  box-shadow: 0 0 0px 1000px transparent inset !important;
+  -webkit-text-fill-color: white !important;
+  background: transparent !important;
+}
+
+/* Visually mask input characters (like type="password") while keeping the input type unchanged.
+   Works in WebKit-based browsers (Chrome, Edge) via -webkit-text-security. Browsers without
+   support will fall back to showing regular text. If you need universal masking, change the
+   input's `type` to "password" in the JSX instead. */
+.masked {
+  -webkit-text-security: disc; /* Chrome, Edge */
+  /* text-security: disc; - non-standard property disabled */
+}
+
+.toggleButton {
+  background: rgba(255,255,255,0.06);
+  color: white;
+  border: 1px solid rgba(255,255,255,0.12);
+  padding: 8px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 40px;
+  transition: all 0.2s ease;
+}
+.toggleButton:hover {
+  background: rgba(255,255,255,0.12);
+  border-color: rgba(255,255,255,0.2);
+}
+.toggleButton[aria-pressed="true"] {
+  background: rgba(255,255,255,0.18);
+  border-color: rgba(255,255,255,0.3);
+}
+
+/* Make sure browser autofill doesn't add a solid background so inputs remain transparent.
+   Use the local `.input` class so the selector is "pure" for CSS Modules. */
+.input:-webkit-autofill,
+textarea.input:-webkit-autofill,
+select.input:-webkit-autofill,
+.input:-webkit-autofill:hover,
+textarea.input:-webkit-autofill:hover,
+select.input:-webkit-autofill:hover,
+.input:-webkit-autofill:focus,
+textarea.input:-webkit-autofill:focus,
+select.input:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0px 1000px transparent inset !important;
+  box-shadow: 0 0 0px 1000px transparent inset !important;
+  -webkit-text-fill-color: white !important;
+}
+
+.checkbox input[type='checkbox'] { 
+  accent-color: #f4b042; 
+  background: transparent !important;
+  background-color: transparent !important;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border: 2px solid rgba(255, 255, 255, 0.8);
+  border-radius: 4px;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.2s ease;
+}
+
+.checkbox input[type='checkbox']:hover {
+  border-color: rgba(255, 255, 255, 1);
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.2);
+}
+
+.checkbox input[type='checkbox']:checked {
+  background: transparent !important;
+  border-color: #f4b042;
+  box-shadow: 0 0 0 2px rgba(244, 176, 66, 0.3);
+}
+
+.checkbox input[type='checkbox']:checked::before {
+  content: '✓';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #f4b042;
+  font-weight: bold;
+  font-size: 12px;
+  line-height: 1;
+}
+.btn { background: #ffffff; color: #6b2160; padding: 10px 22px; border-radius: 26px; border: none; font-weight: 700; box-shadow: 0 2px 6px rgba(0,0,0,0.15); cursor: pointer }
+
+.cta { display:inline-block; background:#e0913a; color:white; padding:8px 12px; border-radius:6px; font-weight:700; text-decoration:none }
+
+.smallMuted { color: rgba(255,255,255,0.85); font-size:13px }
+
+/* Titles and lead text above overlay */
+.title, .lead, .muted, .smallMuted {
+  color: #fff;
+  text-shadow: 0 2px 6px rgba(0,0,0,0.6);
+  position: relative;
+  z-index: 6;
+}
+
+
+
+
+
+/* Animación del spinner de loading */
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.spinner {
+  display: inline-block;
+}
+
+/* Estilos para botón deshabilitado */
+.btn:disabled {
+  opacity: 0.7 !important;
+  cursor: not-allowed !important;
+}
+
+@media (max-width: 1024px) {
+  .divider { display: none; }
+  .hero { display: none; }
+  .card { width: 92%; }
+}

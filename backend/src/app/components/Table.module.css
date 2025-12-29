@@ -1,0 +1,485 @@
+/* 🚀 Contenedor de tabla más compacto con scroll horizontal */
+.tableWrapper {
+  width: 100%;
+  min-width: 800px;
+  max-width: 100%;
+  margin: 5px auto;
+  overflow-x: auto;
+  overflow-y: visible;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(15,23,42,0.06);
+  padding: 6px 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+
+/* 🚀 Tabla centrada con autoajuste de columnas */
+.table {
+  width: 100%;
+  min-width: 800px;
+  margin: 0 auto;
+  border-collapse: collapse;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+  font-size: var(--font-size-base, 14px);
+  color: #111827;
+  table-layout: auto; /* 🚀 Layout automático para mejor ajuste */
+}
+.thead {
+  background: #f8fafc;
+  border-bottom: 2px solid #e2e8f0;
+}
+.th {
+  text-align: center; /* 🎯 Centrado de headers */
+  padding: 8px 8px; /* 🔧 Mejor espaciado */
+  font-weight: 700;
+  font-size: 12px; /* 🔧 Reducido de 13px a 12px */
+  color: #475569;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-bottom: none;
+  position: relative;
+  white-space: nowrap; /* 📝 Evitar salto de línea en headers */
+}
+.th:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: 25%;
+  bottom: 25%;
+  width: 1px;
+  background: #e2e8f0;
+}
+/* 🔧 Filas más compactas y centradas */
+.td {
+  padding: 10px 12px; /* 🔧 Mejor espaciado */
+  vertical-align: middle;
+  border-bottom: 1px solid #f3f4f6;
+  font-size: 13px; /* 🔧 Tamaño de fuente legible */
+  text-align: center; /* 🎯 Centrado de contenido */
+  white-space: nowrap; /* 📝 Mantener contenido en una línea */
+  overflow: hidden; /* 📦 Ocultar desbordamiento */
+  text-overflow: ellipsis; /* ✂️ Agregar puntos suspensivos si es muy largo */
+  max-width: 200px; /* 🎯 Ancho máximo para ellipsis */
+}
+.compactRow {
+  height: 38px; /* 🔧 Reducido de 44px */
+}
+.large {
+  font-size: 15px;
+}
+.large .th {
+  padding: 12px 10px; /* 🔧 Más compacto: 18px->12px, 16px->10px */
+  font-size: 13px; /* 🔧 Reducido de 14px */
+  font-weight: 700;
+}
+.large .td {
+  padding: 8px 10px; /* 🔧 Más compacto: 14px->8px, 16px->10px */
+  font-size: 14px; /* 🔧 Reducido de 15px */
+}
+.large .compactRow {
+  height: 48px; /* 🔧 Reducido de 64px */
+}
+.large .actionBtn {
+  padding: 8px;
+}
+.muted {
+  color: #6b7280;
+  font-size: 12px;
+}
+.actionsCell {
+  padding: 4px 6px; /* 🔧 Más compacto: 8px->4px, 12px->6px */
+  width: 90px; /* 🔧 Reducido de 110px */
+}
+.actionBtn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 3px; /* 🔧 Iconos más pequeños: 6px->3px */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px; /* 🔧 Reducido de 6px */
+  color: #374151;
+  width: 24px; /* 🔧 Tamaño fijo más pequeño */
+  height: 24px;
+}
+.actionBtn:hover {
+  background: rgba(59,130,246,0.06);
+}
+.actionBtn.delete {
+  color: #dc2626;
+}
+.highlight {
+  background: rgba(59,130,246,0.04);
+  font-weight: 700;
+}
+.smallInput {
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: 1px solid #e6e9ef;
+  font-size: 13px;
+}
+.toolbar {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+/* =================== PAGINACIÓN =================== */
+.paginationContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 0;
+  border-top: 1px solid #e5e7eb;
+  margin-top: 16px;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.paginationInfo {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 14px;
+  color: #6b7280;
+}
+
+.itemsPerPage {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.itemsPerPage label {
+  font-size: 14px;
+  font-weight: 500;
+  color: #374151;
+}
+
+.pageSelect {
+  padding: 6px 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  background: white;
+  font-size: 14px;
+  color: #374151;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.pageSelect:hover {
+  border-color: #9ca3af;
+}
+
+.pageSelect:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.paginationControls {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.paginationButton {
+  padding: 8px 12px;
+  border: 1px solid #d1d5db;
+  background: white;
+  color: #374151;
+  cursor: pointer;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.2s;
+  min-width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.paginationButton:hover:not(:disabled) {
+  background: #f9fafb;
+  border-color: #9ca3af;
+}
+
+.paginationButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background: #f9fafb;
+}
+
+.paginationButton.active {
+  background: #3b82f6;
+  color: white;
+  border-color: #3b82f6;
+}
+
+.paginationButton.active:hover {
+  background: #2563eb;
+  border-color: #2563eb;
+}
+
+.ellipsis {
+  padding: 8px 4px;
+  color: #9ca3af;
+  font-weight: 500;
+  user-select: none;
+}
+
+/* Badge styles */
+.badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 0.75em;
+  font-weight: 500;
+  border: 1px solid;
+  transition: all 0.15s ease;
+}
+
+.badge:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .paginationContainer {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+  
+  .paginationInfo {
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  
+  .paginationControls {
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  
+  .table {
+    min-width: 700px;
+    font-size: 14px;
+  }
+  
+  .td {
+    padding: 6px 8px;
+  }
+  
+  .th {
+    padding: 12px 8px;
+    font-size: 12px;
+  }
+}
+
+/* 🚀 Sistema de Autoajuste de Columnas */
+
+/* Clases base para columnas responsivas */
+.columnResponsive {
+  transition: width 0.3s ease, opacity 0.3s ease;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Columnas específicas con CSS variables dinámicas */
+.colName {
+  width: var(--col-name-width, 200px);
+  min-width: var(--col-name-width, 200px);
+  max-width: var(--col-name-width, 200px);
+  display: var(--col-name-display, table-cell);
+}
+
+.colEmail {
+  width: var(--col-email-width, 250px);
+  min-width: var(--col-email-width, 250px);
+  max-width: var(--col-email-width, 250px);
+  display: var(--col-email-display, table-cell);
+}
+
+.colDepartment {
+  width: var(--col-department-width, 200px);
+  min-width: var(--col-department-width, 200px);
+  max-width: var(--col-department-width, 200px);
+  display: var(--col-department-display, table-cell);
+}
+
+.colRole {
+  width: var(--col-role-width, 120px);
+  min-width: var(--col-role-width, 120px);
+  max-width: var(--col-role-width, 120px);
+  display: var(--col-role-display, table-cell);
+}
+
+.colActions {
+  width: var(--col-actions-width, 120px);
+  min-width: var(--col-actions-width, 120px);
+  max-width: var(--col-actions-width, 120px);
+  display: var(--col-actions-display, table-cell);
+}
+
+/* Columnas para tabla de equipos */
+.colEquipmentName {
+  width: var(--col-equipmentName-width, 180px);
+  min-width: var(--col-equipmentName-width, 180px);
+  max-width: var(--col-equipmentName-width, 180px);
+  display: var(--col-equipmentName-display, table-cell);
+}
+
+.colType {
+  width: var(--col-type-width, 140px);
+  min-width: var(--col-type-width, 140px);
+  max-width: var(--col-type-width, 140px);
+  display: var(--col-type-display, table-cell);
+}
+
+.colStatus {
+  width: var(--col-status-width, 120px);
+  min-width: var(--col-status-width, 120px);
+  max-width: var(--col-status-width, 120px);
+  display: var(--col-status-display, table-cell);
+}
+
+.colLocation {
+  width: var(--col-location-width, 160px);
+  min-width: var(--col-location-width, 160px);
+  max-width: var(--col-location-width, 160px);
+  display: var(--col-location-display, table-cell);
+}
+
+.colAssigned {
+  width: var(--col-assigned-width, 180px);
+  min-width: var(--col-assigned-width, 180px);
+  max-width: var(--col-assigned-width, 180px);
+  display: var(--col-assigned-display, table-cell);
+}
+
+/* Columnas para tabla de tickets */
+.colTicketId {
+  width: var(--col-ticketId-width, 100px);
+  min-width: var(--col-ticketId-width, 100px);
+  max-width: var(--col-ticketId-width, 100px);
+  display: var(--col-ticketId-display, table-cell);
+}
+
+.colServiceType {
+  width: var(--col-serviceType-width, 160px);
+  min-width: var(--col-serviceType-width, 160px);
+  max-width: var(--col-serviceType-width, 160px);
+  display: var(--col-serviceType-display, table-cell);
+}
+
+.colDescription {
+  width: var(--col-description-width, 300px);
+  min-width: var(--col-description-width, 300px);
+  max-width: var(--col-description-width, 300px);
+  display: var(--col-description-display, table-cell);
+}
+
+.colCreatedAt {
+  width: var(--col-createdAt-width, 140px);
+  min-width: var(--col-createdAt-width, 140px);
+  max-width: var(--col-createdAt-width, 140px);
+  display: var(--col-createdAt-display, table-cell);
+}
+
+/* Estados responsivos para pantallas pequeñas */
+@media (max-width: 768px) {
+  .table {
+    table-layout: auto; /* Layout flexible en móviles */
+  }
+  
+  .columnResponsive {
+    white-space: normal; /* Permitir wrap de texto en móviles */
+  }
+}
+
+/* Clases de utilidad para ocultar/mostrar columnas */
+.hidden {
+  display: none !important;
+}
+
+.visible {
+  display: table-cell !important;
+}
+
+/* Indicador visual de ajuste automático */
+.autoSizeIndicator {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 12px;
+  height: 12px;
+  background: linear-gradient(45deg, #10b981, #059669);
+  border-radius: 50%;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 0.6; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.1); }
+}
+
+/* 📜 Estilos mejorados para scroll horizontal en tablas */
+.tableWrapper {
+  /* Scroll horizontal mejorado */
+  scrollbar-width: thin;
+  scrollbar-color: #cbd5e0 #f7fafc;
+}
+
+/* Webkit scrollbar (Chrome, Safari, Edge) */
+.tableWrapper::-webkit-scrollbar {
+  height: 8px;
+  width: 8px;
+}
+
+.tableWrapper::-webkit-scrollbar-track {
+  background: #f7fafc;
+  border-radius: 4px;
+}
+
+.tableWrapper::-webkit-scrollbar-thumb {
+  background: #cbd5e0;
+  border-radius: 4px;
+  transition: background 0.2s ease;
+}
+
+.tableWrapper::-webkit-scrollbar-thumb:hover {
+  background: #a0aec0;
+}
+
+/* Indicador visual para scroll horizontal */
+.tableWrapper::after {
+  content: '← Desliza para ver más →';
+  position: absolute;
+  bottom: 10px;
+  right: 20px;
+  font-size: 12px;
+  color: #9ca3af;
+  background: rgba(255, 255, 255, 0.9);
+  padding: 4px 8px;
+  border-radius: 4px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.tableWrapper:hover::after {
+  opacity: 1;
+}
+
+/* Mejorar la tabla para scroll horizontal */
+.table {
+  min-width: 800px; /* Asegurar ancho mínimo */
+}

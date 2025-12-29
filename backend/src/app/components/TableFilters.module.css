@@ -1,0 +1,308 @@
+/* Contenedor principal de filtros */
+.filtersContainer {
+  background: white;
+  border: 1px solid #e1e5e9;
+  border-radius: 8px;
+  padding: 24px;
+  margin-bottom: 24px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+}
+
+.filtersRow {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-end;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+
+.actionsRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+/* Grupo de filtros dropdown */
+.dropdownFilters {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  flex: 1;
+}
+
+.filterGroup {
+  display: flex;
+  flex-direction: column;
+  min-width: 160px;
+}
+
+.filterLabel {
+  font-size: 13px;
+  font-weight: 600;
+  color: #6c757d;
+  margin-bottom: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.filterSelect {
+  padding: 10px 12px;
+  border: 1px solid #dee2e6;
+  border-radius: 6px;
+  background: white;
+  font-size: 14px;
+  font-weight: 500;
+  color: #495057;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 16px;
+  padding-right: 40px;
+}
+
+.filterSelect:hover {
+  border-color: #7b1343;
+  box-shadow: 0 0 0 2px rgba(123, 19, 67, 0.1);
+}
+
+.filterSelect:focus {
+  outline: none;
+  border-color: #7b1343;
+  box-shadow: 0 0 0 3px rgba(123, 19, 67, 0.15);
+}
+
+/* Grupo de búsqueda */
+.searchGroup {
+  display: flex;
+  flex-direction: column;
+  min-width: 320px;
+  flex: 1;
+}
+
+.searchInputContainer {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.searchInput {
+  width: 100%;
+  padding: 10px 16px 10px 44px;
+  border: 1px solid #dee2e6;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #495057;
+  background: white;
+  transition: all 0.2s ease;
+}
+
+.searchInput:hover {
+  border-color: #7b1343;
+  box-shadow: 0 0 0 2px rgba(123, 19, 67, 0.1);
+}
+
+.searchInput:focus {
+  outline: none;
+  border-color: #7b1343;
+  box-shadow: 0 0 0 3px rgba(123, 19, 67, 0.15);
+}
+
+.searchInput::placeholder {
+  color: #adb5bd;
+  font-weight: 400;
+}
+
+.searchIcon {
+  position: absolute;
+  left: 16px;
+  font-size: 16px;
+  color: #6c757d;
+  pointer-events: none;
+}
+
+/* Botón de exportar */
+.exportGroup {
+  display: flex;
+  align-items: center;
+}
+
+.exportButton {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 20px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  min-width: 120px;
+  justify-content: center;
+}
+
+.exportButton:hover {
+  background: linear-gradient(135deg, #059669 0%, #047857 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(16, 185, 129, 0.3);
+}
+
+/* Contenedor de paginación */
+.paginationContainer {
+  border-top: 1px solid #e1e5e9;
+  margin-top: 20px;
+  padding-top: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.paginationInfo {
+  color: #6c757d;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.paginationControls {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+/* Selector de tamaño de página */
+.pageSizeSelector {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.pageSizeLabel {
+  font-size: 14px;
+  color: #6c757d;
+  font-weight: 500;
+}
+
+.pageSizeSelect {
+  padding: 6px 10px;
+  border: 1px solid #dee2e6;
+  border-radius: 4px;
+  background: white;
+  font-size: 14px;
+  color: #495057;
+  cursor: pointer;
+  transition: border-color 0.2s ease;
+}
+
+.pageSizeSelect:focus {
+  outline: none;
+  border-color: #7b1343;
+}
+
+/* Navegación de páginas */
+.pageNavigation {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.pageButton {
+  background: white;
+  border: 1px solid #dee2e6;
+  color: #495057;
+  padding: 8px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  min-width: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pageButton:hover:not(.disabled) {
+  background: #f8f9fa;
+  border-color: #7b1343;
+  color: #7b1343;
+}
+
+.pageButton.disabled {
+  background: #f8f9fa;
+  color: #adb5bd;
+  cursor: not-allowed;
+  border-color: #e9ecef;
+}
+
+.pageInfo {
+  color: #495057;
+  font-size: 14px;
+  font-weight: 500;
+  margin: 0 8px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .filtersRow {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .dropdownFilters {
+    flex-direction: column;
+    gap: 12px;
+  }
+  
+  .filterGroup {
+    min-width: auto;
+  }
+  
+  .searchGroup {
+    min-width: auto;
+    margin-top: 8px;
+  }
+
+  .paginationContainer {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+
+  .paginationControls {
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+}
+
+@media (max-width: 480px) {
+  .filtersContainer {
+    padding: 16px;
+    margin-bottom: 16px;
+  }
+  
+  .dropdownFilters {
+    gap: 8px;
+  }
+
+  .pageNavigation {
+    gap: 4px;
+  }
+
+  .pageButton {
+    padding: 6px 8px;
+    min-width: 32px;
+    font-size: 13px;
+  }
+}

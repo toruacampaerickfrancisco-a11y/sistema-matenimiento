@@ -1,0 +1,3 @@
+id,numero_ticket,titulo,descripcion,estatus,prioridad,tipo_servicio,usuario_reporta_id,usuario_asignado_id,equipo_id,creado,actualizado
+TCK-001,INC-001,No enciende,El equipo no enciende,nuevo,alta,correctivo,,,,,
+TCK-002,INC-002,Sin internet,No tiene acceso a internet,nuevo,media,correctivo,,,,,

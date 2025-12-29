@@ -1,0 +1,17 @@
+id,userId,equipmentId,serviceType,observations,status,diagnostic,repair,parts
+SDDI/0001/2025,SDS-1757101237194,EQP-2FA05,correctivo,Equipo trabaja muy lento,en_proceso,Reemplazo de disco mecánico a disco solido,,
+SDDI/0002/2025,SDS-1757101631823,EQP-14B53,correctivo,Mi equipo trabaja lento,cerrado,Reemplazo de Disco Duro ,Cambio de Disco Duro para un mejor desempeño del Equipo,Disco Solido 
+SDDI/0003/2025,SDS-1757349234729,EQP-14B53,correctivo,Mi equipo trabaja lento,cerrado,Reemplazo de Disco Duro ,Cambio de Disco Duro para un mejor desempeño del Equipo,Disco Solido 
+SDDI/0004/2025,SDS-1757349282365,EQP-CB18D,correctivo,Mi equipo tarda mucho en prender y esta muy lento ,cerrado,Requiere reemplazo de disco duro para un mejor rendimiento,Cambio de disco duro mecánico a solido,Disco duro solido
+SDDI/0005/2025,SDS-1757349390266,EQP-79BC7,correctivo,Computadora muy lenta,cerrado,Requiere reemplazo de disco duro ,Cambio de disco duro mecánico a solido,Disco duro solido
+SDDI/0006/2025,SDS-1757349422705,EQP-53D76,correctivo,Mi computadora esta muy lenta,cerrado,Requiere reemplazo de disco duro,Cambio de disco duro mecánico a solido ,Disco duro solido
+SDDI/0007/2025,SDS-1757349458462,EQP-BD2B4,correctivo,No prende mi computadora,pendiente,,,
+SDDI/0008/2025,SDS-1757350252857,EQP-CB18D,preventivo,Mantenimiento preventivo ,pendiente,,,
+SDDI/0009/2025,SDS-1757350311859,EQP-BD2B4,preventivo,Mi computadora no se puede conectar,pendiente,,,
+SDDI/0010/2025,SDS-1757350374349,EQP-EF637,preventivo,Prueba de captura,en_proceso,,,
+SDDI/0011/2025,SDS-1757350411535,EQP-BD2B4,preventivo,Prueba,pendiente,,,
+SDDI/0012/2025,SDS-1757350461029,EQP-BD2B4,Preventivo,prueba,en_proceso,,,
+SDDI/0013/2025,SDS-1757350494718,EQP-BD2B4,Preventivo,prueba,pendiente,,,
+SDDI/0014/2025,SDS-1757350494718,EQP-3D929,Correctivo,El equipo trabaja lento tarda en cargar los programas,cerrado,Equipo presenta lentitud,se realizo limpieza de software asi como eliminacion de programas de autoarranque,Disco Duro Solido
+SDDI/0015/2025,SDS-1757350494718,EQP-5BC99,Correctivo,Equipo presenta bastante lentitud al iniciar y en su proceso ,cerrado,El equipo requiere actualizacion a disco de estado solido ya que a un cuenta con disco mecanico,Se realizo limpieza de software de autoarranque asi como eliminacion de programas que no se usan,Disco Duro Solido
+SDDI/0016/2025,SDS-1757350494718,EQP-CB18D,Instalacion,Se instalara cable de red para Alejandra Rodriguez,En Proceso,Pendiente,Instalacion de cable de red ,
