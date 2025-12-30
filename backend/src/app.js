@@ -6,6 +6,9 @@ import koaLogger from 'koa-logger';
 import compress from 'koa-compress';
 import json from 'koa-json';
 import Router from 'koa-router';
+import serve from 'koa-static';
+import path from 'path';
+import fs from 'fs';
 
 
 // Configuración
@@ -167,18 +170,33 @@ app.use(apiRouter.routes(), apiRouter.allowedMethods());
 // Las rutas específicas ya están registradas bajo el prefijo `/api` en `apiRouter`.
 // Evitar registrar las mismas rutas directamente en la app para prevenir duplicados.
 
-// Middleware para rutas no encontradas
-app.use(async (ctx) => {
-  ctx.status = 404;
-  ctx.body = {
-    success: false,
-    message: 'Ruta no encontrada',
-    path: ctx.path,
-    method: ctx.method
-  };
-});
-
 // Servir archivos estáticos del frontend
+app.use(serve(path.join(process.cwd(), 'public')));
+
+// Middleware para rutas no encontradas y SPA Fallback
+app.use(async (ctx) => {
+  // Si es una ruta de API, devolver 404 JSON
+  if (ctx.path.startsWith('/api')) {
+    ctx.status = 404;
+    ctx.body = {
+      success: false,
+      message: 'Ruta no encontrada',
+      path: ctx.path,
+      method: ctx.method
+    };
+    return;
+  }
+
+  // Para cualquier otra ruta (no API), servir index.html (SPA)
+  const indexPath = path.join(process.cwd(), 'public', 'index.html');
+  if (fs.existsSync(indexPath)) {
+    ctx.type = 'html';
+    ctx.body = fs.createReadStream(indexPath);
+  } else {
+    ctx.status = 404;
+    ctx.body = 'Frontend no desplegado. Ejecute npm run build en frontend y copie el contenido de dist a backend/public.';
+  }
+});
 
 
 // Función para inicializar la base de datos
