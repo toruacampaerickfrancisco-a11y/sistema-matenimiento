@@ -122,9 +122,23 @@ const pdfController = {
 
       // Departamento
       lineY += lineHeight;
-      doc.font('Helvetica-Bold').text('DEPARTAMENTO:', startX + 5, lineY);
+      doc.font('Helvetica-Bold').fontSize(8).text('DEPARTAMENTO:', startX + 5, lineY);
       const deptName = ticket.reportedBy?.department?.display_name || ticket.reportedBy?.departamento || '';
-      doc.font('Helvetica').text(deptName, startX + 85, lineY);
+      
+      // Ajustar tamaño de fuente si el texto es muy largo
+      let deptFontSize = 8;
+      doc.font('Helvetica').fontSize(deptFontSize);
+      const maxDeptWidth = colWidth - 90; // Espacio disponible
+      
+      while (doc.widthOfString(deptName) > maxDeptWidth && deptFontSize > 4) {
+        deptFontSize -= 0.5;
+        doc.fontSize(deptFontSize);
+      }
+      
+      // Centrar verticalmente si la fuente es más pequeña
+      const yOffset = deptFontSize < 8 ? (8 - deptFontSize) / 2 : 0;
+      
+      doc.text(deptName, startX + 85, lineY + yOffset);
       doc.moveTo(startX + 80, lineY + 10).lineTo(startX + colWidth - 5, lineY + 10).stroke();
 
 

@@ -2,6 +2,7 @@ import React from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from '@/hooks/useAuth';
 import { ProtectedRoute } from '@/components/ProtectedRoute';
+import { SessionTimeout } from '@/components/SessionTimeout';
 import Login from '@/pages/Login';
 import Dashboard from '@/pages/Dashboard';
 import UsersPage from '@/pages/Users';
@@ -36,11 +37,17 @@ const HomeRedirect = () => {
   return <Navigate to="/dashboard" replace />;
 };
 
-const App: React.FC = () => {
+const AppContent: React.FC = () => {
+  const { isSessionExpired, continueSession, logout } = useAuth();
+
   return (
-    <AuthProvider>
-      <div className="App">
-        <Routes>
+    <div className="App">
+      <SessionTimeout 
+        isOpen={isSessionExpired} 
+        onContinue={continueSession} 
+        onLogout={logout} 
+      />
+      <Routes>
                     {/* Insumos - Requiere permiso de inventario */}
                     <Route
                       path="/insumos"
@@ -161,7 +168,14 @@ const App: React.FC = () => {
           {/* Página 404 */}
           <Route path="*" element={<NotFound />} />
         </Routes>
-      </div>
+    </div>
+  );
+};
+
+const App: React.FC = () => {
+  return (
+    <AuthProvider>
+      <AppContent />
     </AuthProvider>
   );
 };

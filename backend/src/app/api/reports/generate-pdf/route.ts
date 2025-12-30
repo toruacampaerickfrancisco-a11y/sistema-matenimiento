@@ -153,8 +153,20 @@ export async function POST(request: Request) {
          .font('Helvetica-Bold')
          .text(field.label, margin + 8, yPos + 7);
       
-      doc.font('Helvetica')
-         .text(field.value, margin + 110, yPos + 7);
+      // Ajustar tamaño de fuente si el texto es muy largo
+      let valueFontSize = 9;
+      doc.font('Helvetica').fontSize(valueFontSize);
+      const maxValueWidth = 160; // 280 (width) - 110 (start) - 10 (padding)
+      
+      while (doc.widthOfString(field.value) > maxValueWidth && valueFontSize > 5) {
+        valueFontSize -= 0.5;
+        doc.fontSize(valueFontSize);
+      }
+      
+      // Centrar verticalmente si la fuente es más pequeña
+      const yOffset = valueFontSize < 9 ? (9 - valueFontSize) / 2 : 0;
+      
+      doc.text(field.value, margin + 110, yPos + 7 + yOffset);
       
       yPos += fieldHeight;
     });
