@@ -13,7 +13,7 @@ import Table from '../components/Table';
 import Modal from '../components/Modal';
 import AddUserModal from '../components/AddUserModal';
 import Pagination from '../components/Pagination';
-import { Pencil, Trash2, Plus, Eye, EyeOff, Download, Filter, Columns, ChevronLeft, ChevronRight, ArrowLeft, Search, FileSpreadsheet } from 'lucide-react';
+import { Pencil, Trash2, Plus, Eye, EyeOff, Download, Filter, Columns, ChevronLeft, ChevronRight, ArrowLeft, Search, FileSpreadsheet, Home } from 'lucide-react';
 import { exportToExcel } from '../utils/exportUtils';
 import { showSuccess, showError, showConfirm, showAlert } from '../utils/swal';
 import { useAuth } from '../hooks/useAuth';
@@ -341,6 +341,8 @@ const Users: React.FC = () => {
   return (
     <Layout>
       <div className={styles.container}>
+        {!isModalOpen && (
+        <>
         <div className={styles.header} style={{ display: 'flex', alignItems: 'center', gap: '16px', justifyContent: 'flex-start' }}>
           <button 
             onClick={() => navigate('/dashboard')} 
@@ -515,9 +517,25 @@ const Users: React.FC = () => {
             onPageChange={setPage}
           />
         </div>
+        </>
+        )}
 
         {isModalOpen && (
-          <Modal title={isEditing ? 'Editar Usuario' : 'Crear Usuario'} onClose={handleCloseModal} isOpen={true}>
+          <div style={{ background: 'white', padding: '24px', borderRadius: '8px', boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)' }}>
+         <div style={{ marginBottom: '24px', borderBottom: '1px solid #e5e7eb', paddingBottom: '16px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', fontSize: '14px', color: '#6b7280', marginBottom: '8px', fontFamily: 'system-ui' }}>
+              <span style={{ cursor: 'pointer', display: 'flex', alignItems: 'center' }} onClick={() => navigate('/dashboard')}>
+                 <Home size={14} style={{ marginRight: 4 }} /> Inicio
+              </span>
+              <span style={{ margin: '0 8px' }}>/</span>
+              <span style={{ cursor: 'pointer' }} onClick={handleCloseModal}>Usuarios</span>
+              <span style={{ margin: '0 8px' }}>/</span>
+              <span style={{ color: '#111827', fontWeight: 600 }}>{isEditing ? 'Editar' : 'Crear'} Usuario</span>
+            </div>
+            <h2 style={{ fontSize: '24px', fontWeight: 600, color: '#111827', margin: 0 }}>
+              {isEditing ? 'Editar Usuario' : 'Crear Usuario'}
+            </h2>
+          </div>
             <AddUserModal
               onSubmit={handleSubmit}
               loading={loading}
@@ -533,7 +551,7 @@ const Users: React.FC = () => {
                 employeeNumber: currentUser.employeeNumber
               } : {}}
             />
-          </Modal>
+          </div>
         )}
       </div>
     </Layout>

@@ -5,7 +5,7 @@ import { departmentService, Department } from '../services/departmentService';
 import Table from '../components/Table';
 import Modal from '../components/Modal';
 import Pagination from '../components/Pagination';
-import { Pencil, Trash2, Plus, Search, ArrowLeft, FileSpreadsheet, Columns } from 'lucide-react';
+import { Pencil, Trash2, Plus, Search, ArrowLeft, FileSpreadsheet, Columns, Home } from 'lucide-react';
 import { showSuccess, showError, showConfirm } from '../utils/swal';
 import { exportToExcel } from '../utils/exportUtils';
 import { useAuth } from '../hooks/useAuth';
@@ -193,6 +193,8 @@ const Departments: React.FC = () => {
   return (
     <Layout>
       <div className={styles.container}>
+        {!isModalOpen && (
+        <>
         <div className={styles.header} style={{ display: 'flex', alignItems: 'center', gap: '16px', justifyContent: 'flex-start' }}>
           <button 
             onClick={() => navigate('/dashboard')} 
@@ -319,17 +321,29 @@ const Departments: React.FC = () => {
             />
           </div>
         </div>
-      </div>
+        </>
+        )}
 
       {isModalOpen && (
-        <Modal
-          isOpen={true}
-          title={isEditing ? 'Editar Departamento' : 'Nuevo Departamento'}
-          onClose={handleCloseModal}
-        >
-          <form onSubmit={handleSubmit}>
+        <div style={{ background: 'white', padding: '24px', borderRadius: '8px', boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)' }}>
+         <div style={{ marginBottom: '24px', borderBottom: '1px solid #e5e7eb', paddingBottom: '16px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', fontSize: '14px', color: '#6b7280', marginBottom: '8px', fontFamily: 'system-ui' }}>
+              <span style={{ cursor: 'pointer', display: 'flex', alignItems: 'center' }} onClick={() => navigate('/dashboard')}>
+                 <Home size={14} style={{ marginRight: 4 }} /> Inicio
+              </span>
+              <span style={{ margin: '0 8px' }}>/</span>
+              <span style={{ cursor: 'pointer' }} onClick={handleCloseModal}>Departamentos</span>
+              <span style={{ margin: '0 8px' }}>/</span>
+              <span style={{ color: '#111827', fontWeight: 600 }}>{isEditing ? 'Editar' : 'Nuevo'} Departamento</span>
+            </div>
+            <h2 style={{ fontSize: '24px', fontWeight: 600, color: '#111827', margin: 0 }}>
+              {isEditing ? 'Editar Departamento' : 'Nuevo Departamento'}
+            </h2>
+          </div>
+          
+          <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '16px', maxWidth: '600px' }}>
             <div className="form-group">
-              <label className="form-label">Nombre del Departamento</label>
+              <label className="form-label" style={{ display: 'block', marginBottom: '8px', fontWeight: 500 }}>Nombre del Departamento</label>
               <input
                 type="text"
                 className="form-input"
@@ -337,29 +351,32 @@ const Departments: React.FC = () => {
                 onChange={(e) => setCurrentDepartment({ ...currentDepartment, display_name: e.target.value })}
                 required
                 placeholder="Ej. Recursos Humanos"
+                style={{ width: '100%', padding: '8px 12px', border: '1px solid #d1d5db', borderRadius: '4px' }}
               />
             </div>
             <div className="form-group" style={{ marginTop: 16 }}>
-              <label className="flex items-center gap-2 cursor-pointer">
+              <label className="flex items-center gap-2 cursor-pointer" style={{ display: 'flex', alignItems: 'center' }}>
                 <input
                   type="checkbox"
                   checked={currentDepartment?.is_active || false}
                   onChange={(e) => setCurrentDepartment({ ...currentDepartment, is_active: e.target.checked })}
+                  style={{ width: '16px', height: '16px' }}
                 />
                 <span style={{ marginLeft: 8 }}>Departamento Activo</span>
               </label>
             </div>
-            <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 12, marginTop: 24 }}>
-              <button type="button" className="btn btn-outline" onClick={handleCloseModal}>
-                Cancelar
-              </button>
+            <div style={{ display: 'flex', justifyContent: 'flex-start', gap: 12, marginTop: 24 }}>
               <button type="submit" className="btn btn-primary">
                 {isEditing ? 'Actualizar' : 'Crear'}
               </button>
+              <button type="button" className="btn btn-outline" onClick={handleCloseModal}>
+                Cancelar
+              </button>
             </div>
           </form>
-        </Modal>
+        </div>
       )}
+    </div>
     </Layout>
   );
 };

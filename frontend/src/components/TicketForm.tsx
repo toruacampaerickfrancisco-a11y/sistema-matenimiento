@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { User, Equipment } from '@/types';
 import { useAuth } from '@/hooks/useAuth.tsx';
+import SearchableSelect from './SearchableSelect';
 
 export interface TicketFormProps {
   onSubmit: (data: any) => void;
@@ -305,16 +306,19 @@ const TicketForm: React.FC<TicketFormProps> = ({
         {user?.role === 'admin' ? (
           <div className="form-group">
             <label className="form-label">Usuario Reportante (Admin)</label>
-            <select 
-              className="form-input" 
-              value={reportedById} 
-              onChange={e => setReportedById(e.target.value)}
-              disabled={loading || isClosed}
-            >
-              {[...users].sort((a, b) => a.fullName.localeCompare(b.fullName)).map(u => (
-                <option key={u.id} value={u.id}>{u.fullName} ({u.department})</option>
-              ))}
-            </select>
+            <SearchableSelect
+              options={[...users]
+                .sort((a, b) => a.fullName.localeCompare(b.fullName))
+                .map(u => ({
+                  value: u.id,
+                  label: u.fullName,
+                  subLabel: u.department
+                }))
+              }
+              value={reportedById}
+              onChange={(val) => setReportedById(val)}
+              placeholder="Seleccionar Usuario"
+            />
           </div>
         ) : (
           <div className="form-row">
@@ -350,23 +354,23 @@ const TicketForm: React.FC<TicketFormProps> = ({
                {equipment.length === 0 ? 'Cargando equipos...' : 'No tiene equipos asignados. Por favor contacte al administrador si cree que esto es un error.'}
              </div>
           )}
-          <select 
-            className="form-input" 
-            value={equipmentId} 
-            onChange={e => setEquipmentId(e.target.value)}
+          <SearchableSelect
             required
-            disabled={loading || isClosed}
-          >
-            <option value="">-- Seleccionar Equipo --</option>
-            {availableEquipment.map(eq => {
-              const inventory = eq.inventoryNumber || eq.serialNumber || '';
+            placeholder="Seleccionar Equipo"
+            value={equipmentId}
+            onChange={(val) => setEquipmentId(val)}
+            options={availableEquipment.map(eq => {
+              const inventory = eq.inventoryNumber || eq.serialNumber || 'S/N';
               const assignedName = eq.assignedUser?.fullName || users.find(u => u.id === eq.assignedUserId)?.fullName || '';
-              const assignedLabel = assignedName ? ` - ${assignedName}` : '';
-              return (
-                <option key={eq.id} value={eq.id}>{`${eq.name} (${inventory})${assignedLabel}`}</option>
-              );
+              
+              return {
+                value: eq.id,
+                label: eq.name, // Columna principal: Nombre del equipo
+                subLabel: `(${inventory})`, // Columna secundaria: Inventario
+                extraInfo: assignedName // Columna terciaria: Usuario asignado
+              };
             })}
-          </select>
+          />
         </div>
 
         {selectedEquipment && (

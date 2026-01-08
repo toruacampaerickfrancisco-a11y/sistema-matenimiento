@@ -31,3 +31,5 @@ _backup/
 *.pem
 env_production
 frontend/.env.production
+
+keys/

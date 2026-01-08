@@ -10,7 +10,7 @@ import Table from '../components/Table';
 import Modal from '../components/Modal';
 import AddEquipmentModal from '../components/AddEquipmentModal';
 import Pagination from '../components/Pagination';
-import { Pencil, Trash2, Plus, Laptop, Smartphone, Printer, Server, Eye, Filter, Columns, ChevronLeft, ChevronRight, Search, FileSpreadsheet, ArrowLeft } from 'lucide-react';
+import { Pencil, Trash2, Plus, Laptop, Smartphone, Printer, Server, Eye, Filter, Columns, ChevronLeft, ChevronRight, Search, FileSpreadsheet, ArrowLeft, Home } from 'lucide-react';
 import { exportToExcel } from '../utils/exportUtils';
 import { showSuccess, showError, showConfirm } from '../utils/swal';
 import { useAuth } from '../hooks/useAuth';
@@ -338,6 +338,8 @@ const EquipmentPage: React.FC = () => {
   return (
     <Layout>
       <div className={styles.container}>
+        {!isModalOpen && !isDetailsModalOpen && (
+        <>
         <div className={styles.header} style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
           <button 
             onClick={() => navigate('/dashboard')} 
@@ -508,9 +510,25 @@ const EquipmentPage: React.FC = () => {
           totalPages={totalPages}
           onPageChange={setPage}
         />
+        </>
+        )}
 
       {isModalOpen && (
-        <Modal title={isEditing ? 'Editar Equipo' : 'Nuevo Equipo'} onClose={handleCloseModals} isOpen={true}>
+        <div style={{ background: 'white', padding: '24px', borderRadius: '8px', boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)' }}>
+         <div style={{ marginBottom: '24px', borderBottom: '1px solid #e5e7eb', paddingBottom: '16px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', fontSize: '14px', color: '#6b7280', marginBottom: '8px', fontFamily: 'system-ui' }}>
+              <span style={{ cursor: 'pointer', display: 'flex', alignItems: 'center' }} onClick={() => navigate('/dashboard')}>
+                 <Home size={14} style={{ marginRight: 4 }} /> Inicio
+              </span>
+              <span style={{ margin: '0 8px' }}>/</span>
+              <span style={{ cursor: 'pointer' }} onClick={handleCloseModals}>Equipos</span>
+              <span style={{ margin: '0 8px' }}>/</span>
+              <span style={{ color: '#111827', fontWeight: 600 }}>{isEditing ? 'Editar' : 'Nuevo'} Equipo</span>
+            </div>
+            <h2 style={{ fontSize: '24px', fontWeight: 600, color: '#111827', margin: 0 }}>
+              {isEditing ? 'Editar Equipo' : 'Nuevo Equipo'}
+            </h2>
+          </div>
           <AddEquipmentModal
             onSubmit={handleSubmit}
             loading={loading}
@@ -536,11 +554,25 @@ const EquipmentPage: React.FC = () => {
               operatingSystem: currentEquipment.operatingSystem
             } : {}}
           />
-        </Modal>
+        </div>
       )}
 
       {isDetailsModalOpen && currentEquipment && (
-        <Modal title="Detalles del Equipo" onClose={handleCloseModals} isOpen={true}>
+        <div style={{ background: 'white', padding: '24px', borderRadius: '8px', boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)' }}>
+         <div style={{ marginBottom: '24px', borderBottom: '1px solid #e5e7eb', paddingBottom: '16px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', fontSize: '14px', color: '#6b7280', marginBottom: '8px' }}>
+              <span style={{ cursor: 'pointer', display: 'flex', alignItems: 'center' }} onClick={() => navigate('/dashboard')}>
+                 <Home size={14} style={{ marginRight: 4 }} /> Inicio
+              </span>
+              <span style={{ margin: '0 8px' }}>/</span>
+              <span style={{ cursor: 'pointer' }} onClick={handleCloseModals}>Equipos</span>
+              <span style={{ margin: '0 8px' }}>/</span>
+              <span style={{ color: '#111827', fontWeight: 600 }}>Detalles</span>
+            </div>
+            <h2 style={{ fontSize: '24px', fontWeight: 600, color: '#111827', margin: 0 }}>
+              Detalles del Equipo
+            </h2>
+          </div>
           <div className={styles.detailsContent}>
             <div className={styles.detailsHeader}>
               <div className={styles.equipmentTitle}>
@@ -594,7 +626,7 @@ const EquipmentPage: React.FC = () => {
               <button type="button" className="btn btn-secondary" onClick={handleCloseModals}>Cerrar</button>
             </div>
           </div>
-        </Modal>
+        </div>
       )}
     </div>
     </Layout>

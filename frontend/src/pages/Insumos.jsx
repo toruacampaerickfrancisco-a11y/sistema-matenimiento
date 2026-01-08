@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { usePermissions } from '../hooks/usePermissions';
 import Modal from '../components/Modal';
 import AddInsumoModal from '../components/AddInsumoModal';
-import { Search, FileSpreadsheet, Columns, Edit, Trash2, ArrowLeft, History } from 'lucide-react';
+import { Search, FileSpreadsheet, Columns, Edit, Trash2, ArrowLeft, History, Home } from 'lucide-react';
 import { exportToExcel } from '../utils/exportUtils';
 import axios from 'axios';
 import Table from '../components/Table';
@@ -262,6 +262,8 @@ const Insumos = () => {
   return (
     <Layout>
       <div className={styles.pageWrapper}>
+        {!showForm && !showHistory && (
+        <>
         <div className={styles.headerRow} style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
           <button 
             onClick={() => navigate('/dashboard')} 
@@ -368,7 +370,33 @@ const Insumos = () => {
           )}
         </div>
 
-        <Modal isOpen={showForm} onClose={() => { setShowForm(false); setEditId(null); }} title={editId ? 'Editar Insumo' : 'Agregar Insumo'}>
+        <Table
+          columns={columns}
+          data={filteredInsumos}
+          loading={loading}
+          error={error}
+          selectable={false}
+          rowKey="id"
+        />
+        </>
+        )}
+
+        {showForm && (
+          <div style={{ background: 'white', padding: '24px', borderRadius: '8px', boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)' }}>
+             <div style={{ marginBottom: '24px', borderBottom: '1px solid #e5e7eb', paddingBottom: '16px' }}>
+                <div style={{ display: 'flex', alignItems: 'center', fontSize: '14px', color: '#6b7280', marginBottom: '8px', fontFamily: 'system-ui' }}>
+                  <span style={{ cursor: 'pointer', display: 'flex', alignItems: 'center' }} onClick={() => navigate('/dashboard')}>
+                     <Home size={14} style={{ marginRight: 4 }} /> Inicio
+                  </span>
+                  <span style={{ margin: '0 8px' }}>/</span>
+                  <span style={{ cursor: 'pointer' }} onClick={() => setShowForm(false)}>Insumos</span>
+                  <span style={{ margin: '0 8px' }}>/</span>
+                  <span style={{ color: '#111827', fontWeight: 600 }}>{editId ? 'Editar' : 'Agregar'} Insumo</span>
+                </div>
+                <h2 style={{ fontSize: '24px', fontWeight: 600, color: '#111827', margin: 0 }}>
+                  {editId ? 'Editar Insumo' : 'Agregar Insumo'}
+                </h2>
+              </div>
           <AddInsumoModal
             onSubmit={handleSubmit}
             loading={loadingForm}
@@ -376,9 +404,25 @@ const Insumos = () => {
             onCancel={() => { setShowForm(false); setEditId(null); }}
           />
           {error && <p style={{ color: 'red', marginTop: 8 }}>{error}</p>}
-        </Modal>
+        </div>
+        )}
 
-        <Modal isOpen={showHistory} onClose={() => setShowHistory(false)} title={`Historial de Asignaciones: ${selectedInsumoName}`}>
+        {showHistory && (
+          <div style={{ background: 'white', padding: '24px', borderRadius: '8px', boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)' }}>
+            <div style={{ marginBottom: '24px', borderBottom: '1px solid #e5e7eb', paddingBottom: '16px' }}>
+                <div style={{ display: 'flex', alignItems: 'center', fontSize: '14px', color: '#6b7280', marginBottom: '8px', fontFamily: 'system-ui' }}>
+                  <span style={{ cursor: 'pointer', display: 'flex', alignItems: 'center' }} onClick={() => navigate('/dashboard')}>
+                     <Home size={14} style={{ marginRight: 4 }} /> Inicio
+                  </span>
+                  <span style={{ margin: '0 8px' }}>/</span>
+                  <span style={{ cursor: 'pointer' }} onClick={() => setShowHistory(false)}>Insumos</span>
+                  <span style={{ margin: '0 8px' }}>/</span>
+                  <span style={{ color: '#111827', fontWeight: 600 }}>Historial</span>
+                </div>
+                <h2 style={{ fontSize: '24px', fontWeight: 600, color: '#111827', margin: 0 }}>
+                  Historial de Asignaciones: {selectedInsumoName}
+                </h2>
+            </div>
           {loadingHistory ? (
             <p>Cargando historial...</p>
           ) : historyData.length === 0 ? (
@@ -417,16 +461,9 @@ const Insumos = () => {
           <div style={{ marginTop: '16px', textAlign: 'right' }}>
             <button className="btn btn-secondary" onClick={() => setShowHistory(false)}>Cerrar</button>
           </div>
-        </Modal>
+        </div>
+        )}
 
-        <Table
-          columns={columns}
-          data={filteredInsumos}
-          loading={loading}
-          error={error}
-          selectable={false}
-          rowKey="id"
-        />
       </div>
     </Layout>
   );

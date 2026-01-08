@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Shield, Users, Key, Save, X, AlertTriangle, Search, Filter, ChevronLeft, ChevronRight, Eye, FileSpreadsheet, ArrowLeft, Columns } from 'lucide-react';
+import { Shield, Users, Key, Save, X, AlertTriangle, Search, Filter, ChevronLeft, ChevronRight, Eye, FileSpreadsheet, ArrowLeft, Columns, Home } from 'lucide-react';
 import Layout from '@/components/Layout';
 import Table, { Column } from '@/components/Table';
 import Modal from '@/components/Modal';
@@ -372,6 +372,8 @@ const PermissionsPage: React.FC = () => {
   return (
     <Layout>
       <div className={styles.container}>
+        {!showPermissionModal && (
+        <>
         <div className={styles.header} style={{ display: 'flex', alignItems: 'center', gap: '16px', justifyContent: 'flex-start' }}>
           <button 
             onClick={() => navigate('/dashboard')} 
@@ -547,15 +549,26 @@ const PermissionsPage: React.FC = () => {
           totalPages={totalPages}
           onPageChange={setPage}
         />
+        </>
+        )}
 
         {/* Modal de permisos */}
         {showPermissionModal && selectedUser && (
-          <Modal
-            isOpen={showPermissionModal}
-            onClose={() => setShowPermissionModal(false)}
-            title={`Permisos de ${selectedUser.fullName}`}
-            size="xl"
-          >
+        <div style={{ background: 'white', padding: '24px', borderRadius: '8px', boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)' }}>
+         <div style={{ marginBottom: '24px', borderBottom: '1px solid #e5e7eb', paddingBottom: '16px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', fontSize: '14px', color: '#6b7280', marginBottom: '8px', fontFamily: 'system-ui' }}>
+              <span style={{ cursor: 'pointer', display: 'flex', alignItems: 'center' }} onClick={() => navigate('/dashboard')}>
+                 <Home size={14} style={{ marginRight: 4 }} /> Inicio
+              </span>
+              <span style={{ margin: '0 8px' }}>/</span>
+              <span style={{ cursor: 'pointer' }} onClick={() => setShowPermissionModal(false)}>Permisos</span>
+              <span style={{ margin: '0 8px' }}>/</span>
+              <span style={{ color: '#111827', fontWeight: 600 }}>Gestionar Usuario</span>
+            </div>
+            <h2 style={{ fontSize: '24px', fontWeight: 600, color: '#111827', margin: 0 }}>
+              Permisos de {selectedUser.fullName}
+            </h2>
+          </div>
             <div className={styles.permissionModal}>
               <div className={styles.modalHeader}>
                 <div className={styles.userCard}>
@@ -624,7 +637,7 @@ const PermissionsPage: React.FC = () => {
                 </button>
               </div>
             </div>
-          </Modal>
+        </div>
         )}
 
         {/* Modal de plantillas de rol */}

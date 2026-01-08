@@ -9,7 +9,7 @@ import styles from './Tickets.module.css';
 import Table from '../components/Table';
 import Modal from '../components/Modal';
 import Pagination from '../components/Pagination';
-import { Plus, Eye, Pencil, Play, CheckCircle, FileText, Filter, Columns, ChevronLeft, ChevronRight, Search, Trash2, FileSpreadsheet, ArrowLeft } from 'lucide-react';
+import { Plus, Eye, Pencil, Play, CheckCircle, FileText, Filter, Columns, ChevronLeft, ChevronRight, Search, Trash2, FileSpreadsheet, ArrowLeft, Home } from 'lucide-react';
 import TicketForm from '../components/TicketForm';
 import { exportToExcel } from '../utils/exportUtils';
 import { useAuth } from '../hooks/useAuth';
@@ -397,6 +397,8 @@ const TicketsPage: React.FC = () => {
   return (
     <Layout>
       <div className={styles.container}>
+        {!isModalOpen && !isDetailsModalOpen && (
+        <>
         <div className={styles.header} style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
           <button 
             onClick={() => navigate('/dashboard')} 
@@ -555,9 +557,25 @@ const TicketsPage: React.FC = () => {
           totalPages={totalPages}
           onPageChange={setPage}
         />
+        </>
+        )}
 
       {isModalOpen && (
-        <Modal title={isEditing ? 'Editar Ticket' : 'Crear Ticket'} onClose={handleCloseModals} isOpen={true} size="lg">
+        <div style={{ background: 'white', padding: '24px', borderRadius: '8px', boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)' }}>
+          <div style={{ marginBottom: '24px', borderBottom: '1px solid #e5e7eb', paddingBottom: '16px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', fontSize: '14px', color: '#6b7280', marginBottom: '8px', fontFamily: 'system-ui' }}>
+              <span style={{ cursor: 'pointer', display: 'flex', alignItems: 'center' }} onClick={() => navigate('/dashboard')}>
+                 <Home size={14} style={{ marginRight: 4 }} /> Inicio
+              </span>
+              <span style={{ margin: '0 8px' }}>/</span>
+              <span style={{ cursor: 'pointer' }} onClick={handleCloseModals}>Tickets</span>
+              <span style={{ margin: '0 8px' }}>/</span>
+              <span style={{ color: '#111827', fontWeight: 600 }}>{isEditing ? 'Editar' : 'Crear'} Ticket</span>
+            </div>
+            <h2 style={{ fontSize: '24px', fontWeight: 600, color: '#111827', margin: 0 }}>
+              {isEditing ? 'Editar Ticket' : 'Crear Ticket'}
+            </h2>
+          </div>
           <TicketForm
             onSubmit={handleSubmit}
             loading={loading}
@@ -583,11 +601,25 @@ const TicketsPage: React.FC = () => {
               parts: typeof currentTicket.parts === 'string' ? JSON.parse(currentTicket.parts) : (currentTicket.parts || [])
             } : {}}
           />
-        </Modal>
+        </div>
       )}
 
       {isDetailsModalOpen && currentTicket && (
-        <Modal title="Detalles del Ticket" onClose={handleCloseModals} isOpen={true}>
+        <div style={{ background: 'white', padding: '24px', borderRadius: '8px', boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)' }}>
+         <div style={{ marginBottom: '24px', borderBottom: '1px solid #e5e7eb', paddingBottom: '16px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', fontSize: '14px', color: '#6b7280', marginBottom: '8px' }}>
+              <span style={{ cursor: 'pointer', display: 'flex', alignItems: 'center' }} onClick={() => navigate('/dashboard')}>
+                 <Home size={14} style={{ marginRight: 4 }} /> Inicio
+              </span>
+              <span style={{ margin: '0 8px' }}>/</span>
+              <span style={{ cursor: 'pointer' }} onClick={handleCloseModals}>Tickets</span>
+              <span style={{ margin: '0 8px' }}>/</span>
+              <span style={{ color: '#111827', fontWeight: 600 }}>{currentTicket.ticketNumber}</span>
+            </div>
+            <h2 style={{ fontSize: '24px', fontWeight: 600, color: '#111827', margin: 0 }}>
+              Detalles del Ticket
+            </h2>
+          </div>
           <div className={styles.detailsContent}>
             <div className={styles.detailsHeader}>
               <div className={styles.ticketInfo}>
@@ -638,7 +670,7 @@ const TicketsPage: React.FC = () => {
               </div>
             </div>
 
-            <div className={styles.modalFooter} style={{ justifyContent: 'space-between' }}>
+            <div className={styles.modalFooter} style={{ justifyContent: 'space-between', marginTop: '20px', paddingTop: '20px', borderTop: '1px solid #e5e7eb' }}>
               <div style={{ display: 'flex', gap: '8px' }}>
                 <button 
                   type="button" 
@@ -661,7 +693,7 @@ const TicketsPage: React.FC = () => {
                 <button 
                   type="button" 
                   className="btn" 
-                  style={{ background: '#8b5cf6', color: 'white' }}
+                  style={{ background: '#3b82f6', color: 'white' }}
                   onClick={() => handleStatusChange(currentTicket.id, 'en_proceso')}
                   disabled={currentTicket.status === 'en_proceso'}
                 >
@@ -680,7 +712,7 @@ const TicketsPage: React.FC = () => {
               <button type="button" className="btn btn-secondary" onClick={handleCloseModals}>Cerrar</button>
             </div>
           </div>
-        </Modal>
+        </div>
       )}
     </div>
     </Layout>

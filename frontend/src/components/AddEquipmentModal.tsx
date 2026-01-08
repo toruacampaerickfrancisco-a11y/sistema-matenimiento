@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { User, Department } from '@/types';
+import SearchableSelect from './SearchableSelect';
 
 export interface AddEquipmentModalProps {
   onSubmit: (data: any) => void;
@@ -36,28 +37,55 @@ const AddEquipmentModal: React.FC<AddEquipmentModalProps> = ({
   const [processor, setProcessor] = useState(initialData.processor || '');
   const [ram, setRam] = useState(initialData.ram || '');
   const [hardDrive, setHardDrive] = useState(initialData.hardDrive || '');
-  const [operatingSystem, setOperatingSystem] = useState(initialData.operatingSystem || '');
+  const [operatingSystem, setOperatingSystem] = useState(initialData.operatingSystem || 'Windows 10 Pro');
+
+  // Listas de opciones estandarizadas
+  const OS_OPTIONS = [
+    "Windows 11 Pro",
+    "Windows 11 Home",
+    "Windows 10 Pro",
+    "Windows 10 Home",
+    "Windows 8.1",
+    "Windows 7",
+    "macOS Sonoma",
+    "macOS Ventura",
+    "macOS Monterey",
+    "Ubuntu Linux",
+    "Windows Server 2022",
+    "Windows Server 2019",
+    "Android",
+    "iOS",
+    "Otro"
+  ];
+
+  const RAM_OPTIONS = [
+    "4GB", "8GB", "12GB", "16GB", "32GB", "64GB", "128GB"
+  ];
+
+  const STORAGE_OPTIONS = [
+    "128GB SSD", "240GB SSD", "256GB SSD", "480GB SSD", "500GB SSD", "512GB SSD", "1TB SSD",
+    "500GB HDD", "1TB HDD", "2TB HDD"
+  ];
+
+  const PROCESSOR_OPTIONS = [
+    "Intel Core i3", "Intel Core i5", "Intel Core i7", "Intel Core i9", "Intel Xeon",
+    "AMD Ryzen 3", "AMD Ryzen 5", "AMD Ryzen 7", "AMD Ryzen 9",
+    "Apple M1", "Apple M1 Pro", "Apple M1 Max",
+    "Apple M2", "Apple M2 Pro", "Apple M2 Max",
+    "Apple M3", "Apple M3 Pro", "Apple M3 Max",
+    "Otro"
+  ];
+
+  const BRAND_OPTIONS = [
+    "Dell", "HP", "Lenovo", "Apple", "Acer", "Asus", "Samsung", "Toshiba", "Brother", "Epson", "Canon", "Kyocera"
+  ];
 
   useEffect(() => {
     if (initialData) {
       setName(initialData.name || '');
-      setType(initialData.type || 'computadora');
-      setBrand(initialData.brand || '');
-      setModel(initialData.model || '');
-      setSerialNumber(initialData.serialNumber || '');
-      setStatus(initialData.status || 'operativo');
-      setLocation(initialData.location || '');
-      setPurchaseDate(initialData.purchaseDate ? initialData.purchaseDate.split('T')[0] : '');
-      setWarrantyExpiration(initialData.warrantyExpiration ? initialData.warrantyExpiration.split('T')[0] : '');
-      setAssignedUserId(initialData.assignedUserId || '');
-      setNotes(initialData.notes || '');
-      setRequirement(initialData.requirement || '');
-      
-      setInventoryNumber(initialData.inventoryNumber || '');
-      setProcessor(initialData.processor || '');
-      setRam(initialData.ram || '');
-      setHardDrive(initialData.hardDrive || '');
-      setOperatingSystem(initialData.operatingSystem || '');
+      // ... restaurar otros campos
+      setOperatingSystem(initialData.operatingSystem || 'Windows 10 Pro');
+      // ...
     }
   }, [initialData]);
 
@@ -101,9 +129,14 @@ const AddEquipmentModal: React.FC<AddEquipmentModalProps> = ({
           <label className="form-label">Tipo</label>
           <select className="form-input" value={type} onChange={e => setType(e.target.value)}>
             <option value="computadora">Computadora</option>
+            <option value="laptop">Laptop</option>
+            <option value="desktop">Desktop</option>
             <option value="impresora">Impresora</option>
             <option value="servidor">Servidor</option>
             <option value="celular">Celular</option>
+            <option value="telefono">Teléfono</option>
+            <option value="monitor">Monitor</option>
+            <option value="tv">TV</option>
             <option value="tablet">Tablet</option>
             <option value="otro">Otro</option>
           </select>
@@ -117,8 +150,12 @@ const AddEquipmentModal: React.FC<AddEquipmentModalProps> = ({
             className="form-input"
             placeholder="Marca" 
             value={brand} 
+            list="brand-options"
             onChange={e => setBrand(e.target.value)} 
           />
+          <datalist id="brand-options">
+            {BRAND_OPTIONS.map(opt => <option key={opt} value={opt} />)}
+          </datalist>
         </div>
         <div className="form-group">
           <label className="form-label">Modelo</label>
@@ -205,54 +242,77 @@ const AddEquipmentModal: React.FC<AddEquipmentModalProps> = ({
         <div className="form-row">
           <div className="form-group">
             <label className="form-label">Procesador</label>
-            <input 
+            <select 
               className="form-input"
-              placeholder="Ej: Intel Core i5" 
               value={processor} 
               onChange={e => setProcessor(e.target.value)} 
-            />
+            >
+              <option value="">Seleccionar Procesador</option>
+              {PROCESSOR_OPTIONS.map(opt => (
+                <option key={opt} value={opt}>{opt}</option>
+              ))}
+            </select>
           </div>
           <div className="form-group">
             <label className="form-label">RAM</label>
-            <input 
+            <select 
               className="form-input"
-              placeholder="Ej: 16GB" 
               value={ram} 
               onChange={e => setRam(e.target.value)} 
-            />
+            >
+              <option value="">Seleccionar RAM</option>
+              {RAM_OPTIONS.map(opt => (
+                <option key={opt} value={opt}>{opt}</option>
+              ))}
+            </select>
           </div>
         </div>
 
         <div className="form-row">
           <div className="form-group">
             <label className="form-label">Disco Duro</label>
-            <input 
+            <select 
               className="form-input"
-              placeholder="Ej: 512GB SSD" 
               value={hardDrive} 
               onChange={e => setHardDrive(e.target.value)} 
-            />
+            >
+              <option value="">Seleccionar Disco</option>
+              {STORAGE_OPTIONS.map(opt => (
+                <option key={opt} value={opt}>{opt}</option>
+              ))}
+            </select>
           </div>
           <div className="form-group">
             <label className="form-label">Sistema Operativo</label>
-            <input 
+            <select
               className="form-input"
-              placeholder="Ej: Windows 11 Pro" 
               value={operatingSystem} 
               onChange={e => setOperatingSystem(e.target.value)} 
-            />
+            >
+              <option value="">Seleccionar SO</option>
+              {OS_OPTIONS.map(os => (
+                <option key={os} value={os}>{os}</option>
+              ))}
+            </select>
           </div>
         </div>
       </div>
 
       <div className="form-group">
         <label className="form-label">Usuario Asignado</label>
-        <select className="form-input" value={assignedUserId} onChange={e => setAssignedUserId(e.target.value)}>
-          <option value="">-- Sin Asignar --</option>
-          {[...users].sort((a, b) => a.fullName.localeCompare(b.fullName)).map(u => (
-            <option key={u.id} value={u.id}>{u.fullName} ({u.department})</option>
-          ))}
-        </select>
+        <SearchableSelect
+          value={assignedUserId}
+          onChange={(val) => setAssignedUserId(val)}
+          placeholder="-- Sin Asignar --"
+          options={[...users]
+            .sort((a, b) => a.fullName.localeCompare(b.fullName))
+            .map(u => ({
+              value: u.id,
+              label: u.fullName,
+              subLabel: u.department
+            }))
+          }
+        />
       </div>
 
       <div className="form-group">

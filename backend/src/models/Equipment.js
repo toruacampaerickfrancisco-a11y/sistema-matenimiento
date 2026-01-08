@@ -82,7 +82,7 @@ Equipment.init({
     allowNull: false
   },
   type: {
-    type: DataTypes.ENUM('desktop', 'laptop', 'printer', 'server', 'monitor', 'computadora', 'other'),
+    type: DataTypes.ENUM('desktop', 'laptop', 'printer', 'server', 'monitor', 'tv', 'phone', 'telefono', 'tablet', 'computadora', 'impresora', 'celular', 'otro', 'other'),
     allowNull: false
   },
   brand: {

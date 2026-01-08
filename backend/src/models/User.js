@@ -204,11 +204,23 @@ User.init({
   tableName: 'users',
     hooks: {
       beforeCreate: async (user) => {
+        if (user.rol) {
+          user.rol = user.rol.toLowerCase().trim().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+        }
+        if (user.correo) {
+          user.correo = user.correo.toLowerCase().trim();
+        }
         if (user.contrasena) {
           await user.setContrasena(user.contrasena);
         }
       },
       beforeUpdate: async (user) => {
+        if (user.changed('rol') && user.rol) {
+          user.rol = user.rol.toLowerCase().trim().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+        }
+        if (user.changed('correo') && user.correo) {
+          user.correo = user.correo.toLowerCase().trim();
+        }
         if (user.changed('contrasena')) {
           await user.setContrasena(user.contrasena);
         }
