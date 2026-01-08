@@ -144,7 +144,7 @@ Equipment.init({
     allowNull: true
   },
   requirement: {
-    type: DataTypes.STRING(255),
+    type: DataTypes.TEXT,
     allowNull: true
   },
   assigned_user_id: {

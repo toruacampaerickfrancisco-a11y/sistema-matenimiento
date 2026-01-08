@@ -35,7 +35,8 @@ Permission.init({
       'reports', 
       'profile', 
       'permissions',
-      'supplies'
+      'supplies',
+      'departments'
     ),
     allowNull: false
   },

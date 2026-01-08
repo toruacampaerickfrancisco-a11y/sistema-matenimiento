@@ -43,7 +43,13 @@ function debug(...args) { if (LOG_LEVEL === 'debug') appLogger.debug(args.join('
 
 
 // Middleware globales
-app.use(helmet()); // Seguridad
+app.use(helmet({
+  contentSecurityPolicy: false,
+  crossOriginEmbedderPolicy: false,
+  crossOriginOpenerPolicy: false,
+  crossOriginResourcePolicy: { policy: "cross-origin" },
+  originAgentCluster: false,
+})); // Seguridad relajada para HTTP
 app.use(compress()); // Compresión
 app.use(json({ pretty: false, param: 'pretty' })); // JSON prettier
 app.use(bodyParser({
@@ -133,21 +139,21 @@ router.get('/health', (ctx) => {
   };
 });
 
-// Ruta raíz
-router.get('/', (ctx) => {
-  ctx.body = {
-    success: true,
-    message: 'API Sistema ERP Mantenimiento - Secretaría de Bienestar del Estado de Sonora',
-    version: '1.0.0',
-    documentation: '/api/docs',
-    endpoints: {
-      auth: '/api/auth',
-      users: '/api/users',
-      equipment: '/api/equipment',
-      tickets: '/api/tickets'
-    }
-  };
-});
+// Ruta raíz - COMENTADA PARA PERMITIR FRONTEND
+// router.get('/', (ctx) => {
+//   ctx.body = {
+//     success: true,
+//     message: 'API Sistema ERP Mantenimiento - Secretaría de Bienestar del Estado de Sonora',
+//     version: '1.0.0',
+//     documentation: '/api/docs',
+//     endpoints: {
+//       auth: '/api/auth',
+//       users: '/api/users',
+//       equipment: '/api/equipment',
+//       tickets: '/api/tickets'
+//     }
+//   };
+// });
 
 // Registrar rutas de la API
 const apiRouter = new Router({ prefix: '/api' });

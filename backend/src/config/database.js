@@ -11,6 +11,7 @@ const sequelize = new Sequelize(
     host: config.database.host,
     port: config.database.port,
     dialect: config.database.dialect,
+    storage: config.database.storage,
     logging: config.database.logging && process.env.LOG_LEVEL !== 'silent' ? (msg) => logger.debug(msg) : false,
     pool: config.database.pool,
     define: config.database.define

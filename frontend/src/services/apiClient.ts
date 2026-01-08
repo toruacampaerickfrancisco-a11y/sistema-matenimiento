@@ -4,8 +4,11 @@ class ApiClient {
   private client: AxiosInstance;
 
   constructor() {
+    // Usar variable de entorno o fallback relativo
+    const baseURL = import.meta.env.VITE_API_URL || '/api';
+    
     this.client = axios.create({
-      baseURL: `${window.location.protocol}//${window.location.hostname}:3000/api`,
+      baseURL: baseURL,
       timeout: 10000,
       headers: {
         'Content-Type': 'application/json',

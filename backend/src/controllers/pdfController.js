@@ -2,6 +2,10 @@ import PDFDocument from 'pdfkit';
 import { Ticket, User, Equipment, Department } from '../models/index.js';
 import fs from 'fs';
 import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const pdfController = {
   async generateTicketPdf(ctx) {
@@ -68,9 +72,26 @@ const pdfController = {
 
       // --- Header ---
       // Logos placeholder (Left)
-      const logoPath = path.join(process.cwd(), 'public', 'images', 'logo.png');
-      if (fs.existsSync(logoPath)) {
+      // Robust path resolution for logo
+      const possiblePaths = [
+        path.join(process.cwd(), 'public', 'images', 'logo.png'),
+        path.join(process.cwd(), 'backend', 'public', 'images', 'logo.png'),
+        path.join(__dirname, '../../public/images/logo.png'),
+        path.join(__dirname, '../../../public/images/logo.png')
+      ];
+
+      let logoPath = null;
+      for (const p of possiblePaths) {
+        if (fs.existsSync(p)) {
+          logoPath = p;
+          break;
+        }
+      }
+
+      if (logoPath) {
         doc.image(logoPath, startX, startY - 5, { width: 160 });
+      } else {
+        console.warn('Logo no encontrado en rutas:', possiblePaths);
       }
       
       // Title (Right)
@@ -154,10 +175,22 @@ const pdfController = {
       
       lineY = currentY + 25;
       
-      // Tipo
+      // Tipo (Mapped to Spanish)
       doc.font('Helvetica-Bold').text('TIPO:', startX + 5, lineY);
       const equipmentType = ticket.equipment?.type || '';
-      doc.font('Helvetica').text(equipmentType.toUpperCase(), startX + 40, lineY);
+      
+      const typeMapping = {
+        'desktop': 'ESCRITORIO',
+        'computadora': 'ESCRITORIO',
+        'laptop': 'LAPTOP',
+        'printer': 'IMPRESORA',
+        'server': 'SERVIDOR',
+        'monitor': 'MONITOR',
+        'other': 'OTRO'
+      };
+      
+      const displayType = typeMapping[equipmentType.toLowerCase()] || equipmentType.toUpperCase();
+      doc.font('Helvetica').text(displayType, startX + 40, lineY);
       doc.moveTo(startX + 35, lineY + 10).lineTo(startX + colWidth - 5, lineY + 10).stroke();
 
       // Marca

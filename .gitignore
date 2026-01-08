@@ -26,3 +26,8 @@ Thumbs.db
 _backup/
 *.dump
 *.sql
+
+# Seguridad
+*.pem
+env_production
+frontend/.env.production
