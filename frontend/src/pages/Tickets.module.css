@@ -515,7 +515,7 @@
 
 /* Nuevos estilos para botones */
 .btnAgregar {
-  background-color: #198754; /* Green */
+  background: linear-gradient(90deg, #e91e63 0%, #9c27b0 100%);
   color: white;
   border: none;
   border-radius: 50px; /* Pill shape */

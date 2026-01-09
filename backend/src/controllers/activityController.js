@@ -101,7 +101,7 @@ export const createActivity = async (ctx) => {
       due_date,
       visibility: visibility || 'team',
       created_by: userId,
-      ticket_id
+      ticket_id: ticket_id || null
     });
 
     // Añadir participantes si existen
