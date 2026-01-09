@@ -11,6 +11,9 @@ import ReadNotification from './ReadNotification.js';
 import Department from './Department.js';
 import Insumo from './Insumo.js';
 import InsumosUsuario from './InsumosUsuario.js';
+import Activity from './Activity.js';
+import ActivityParticipant from './ActivityParticipant.js';
+import ActivityComment from './ActivityComment.js';
 import permissionService from '../services/permissionService.js';
 
 // Objeto que contiene todos los modelos
@@ -26,7 +29,10 @@ const models = {
   ReadNotification,
   Department,
   Insumo,
-  InsumosUsuario
+  InsumosUsuario,
+  Activity,
+  ActivityParticipant,
+  ActivityComment
 };
 
 // Configurar asociaciones
@@ -66,7 +72,10 @@ export {
   ReadNotification,
   Department,
   Insumo,
-  InsumosUsuario
+  InsumosUsuario,
+  Activity,
+  ActivityParticipant,
+  ActivityComment
 };
 
 export default models;

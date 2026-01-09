@@ -23,15 +23,15 @@
     /* Paths */
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./src/*"],
-      "@/components/*": ["./src/components/*"],
-      "@/pages/*": ["./src/pages/*"],
-      "@/types/*": ["./src/types/*"],
-      "@/utils/*": ["./src/utils/*"],
-      "@/services/*": ["./src/services/*"],
-      "@/hooks/*": ["./src/hooks/*"]
+      "@/*": ["./frontend/src/*"],
+      "@/components/*": ["./frontend/src/components/*"],
+      "@/pages/*": ["./frontend/src/pages/*"],
+      "@/types/*": ["./frontend/src/types/*"],
+      "@/utils/*": ["./frontend/src/utils/*"],
+      "@/services/*": ["./frontend/src/services/*"],
+      "@/hooks/*": ["./frontend/src/hooks/*"]
     }
   },
-  "include": ["src"],
+  "include": ["frontend/src"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

@@ -15,6 +15,7 @@ import DepartmentsPage from '@/pages/Departments';
 import Unauthorized from '@/pages/Unauthorized';
 import NotFound from '@/pages/NotFound';
 import Insumos from '@/pages/Insumos';
+import ActivitiesPage from '@/pages/Activities';
 // ...existing code...
 
 const HomeRedirect = () => {
@@ -135,6 +136,16 @@ const AppContent: React.FC = () => {
                 requiredAction="view"
               >
                 <ReportsPage />
+              </ProtectedRoute>
+            }
+          />
+
+          {/* Bitácora de Actividades */}
+          <Route
+            path="/actividades"
+            element={
+              <ProtectedRoute allowedRoles={['admin', 'tecnico']}>
+                <ActivitiesPage />
               </ProtectedRoute>
             }
           />

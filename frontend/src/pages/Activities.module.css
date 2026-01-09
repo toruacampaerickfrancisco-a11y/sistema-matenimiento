@@ -1,0 +1,183 @@
+.container {
+  padding: 20px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.title {
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
+}
+
+.filters {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.filterSelect {
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.board {
+  display: flex;
+  gap: 20px;
+  overflow-x: auto;
+  min-height: calc(100vh - 200px);
+}
+
+.column {
+  flex: 1;
+  min-width: 280px;
+  background-color: #f4f5f7;
+  border-radius: 8px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+}
+
+.columnHeader {
+  font-weight: bold;
+  margin-bottom: 10px;
+  padding: 5px;
+  text-transform: uppercase;
+  font-size: 14px;
+  color: #5e6c84;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.countBadge {
+  background-color: #e2e4e7;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 12px;
+}
+
+.card {
+  background-color: white;
+  border-radius: 4px;
+  padding: 10px;
+  margin-bottom: 8px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+  cursor: pointer;
+  transition: box-shadow 0.2s;
+  border-left: 4px solid transparent;
+}
+
+.card:hover {
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+/* Priority Colors */
+.priority_low { border-left-color: #36b37e; }
+.priority_normal { border-left-color: #00b8d9; }
+.priority_high { border-left-color: #ffab00; }
+.priority_urgent { border-left-color: #ff5630; }
+
+.cardHeader {
+  font-weight: 500;
+  margin-bottom: 5px;
+  word-wrap: break-word;
+}
+
+.cardMeta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+  color: #5e6c84;
+  margin-top: 8px;
+}
+
+.avatar {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background-color: #0052cc;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+}
+
+.addButton {
+  background-color: #0052cc;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.modalContent {
+    padding: 20px;
+}
+
+.formGroup {
+    margin-bottom: 15px;
+}
+
+.label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 500;
+}
+
+.input, .textarea, .select {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+
+.dateInfo {
+    font-size: 11px;
+    color: #888;
+    margin-top: 4px;
+}
+
+.badge {
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: bold;
+}
+
+.btnAgregar {
+  background-color: #198754;
+  color: white;
+  border: none;
+  border-radius: 50px;
+  padding: 6px 16px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+.btnAgregar:hover {
+  background-color: #157347;
+}
+

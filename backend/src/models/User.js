@@ -23,6 +23,14 @@ class User extends Model {
     if (models.Department) {
       User.belongsTo(models.Department, { foreignKey: 'department_id', as: 'department' });
     }
+    
+    // Asociaciones Activities
+    if (models.Activity) {
+      User.hasMany(models.Activity, { foreignKey: 'created_by', as: 'created_activities' });
+    }
+    if (models.ActivityParticipant) {
+      User.hasMany(models.ActivityParticipant, { foreignKey: 'user_id', as: 'activity_participations' });
+    }
   }
 
   // Método para serializar datos públicos con nombres esperados por el frontend

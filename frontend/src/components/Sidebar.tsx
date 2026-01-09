@@ -12,7 +12,8 @@ import {
   BarChart,
   Shield,
   Settings,
-  LogOut
+  LogOut,
+  ListTodo
 } from 'lucide-react';
 import { usePermissions } from '@/hooks/usePermissions';
 import { PermissionModule } from '@/types';
@@ -62,6 +63,13 @@ const menuItems: MenuItem[] = [
     icon: Ticket,
     roles: ['admin', 'tecnico', 'technician', 'usuario', 'user', 'inventario'],
     module: 'tickets'
+  },
+  {
+    path: '/actividades',
+    label: 'Bitácora',
+    icon: ListTodo,
+    roles: ['admin', 'tecnico'],
+    module: 'tickets' 
   },
   {
     path: '/insumos',
