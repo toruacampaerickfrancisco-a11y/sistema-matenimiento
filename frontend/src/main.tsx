@@ -1,18 +1,18 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+import { createHashRouter, RouterProvider } from 'react-router-dom'
 import App from './App.tsx'
 import './styles/global.css'
 
 
 // Define las rutas principales
-const router = createBrowserRouter([
+// Usamos HashRouter para evitar conflictos con la configuración de servidor de Nginx
+const router = createHashRouter([
   {
     path: '/*',
     element: <App />,
   },
 ], {
-  basename: import.meta.env.BASE_URL,
   future: {
     v7_startTransition: true,
     v7_relativeSplatPath: true,
