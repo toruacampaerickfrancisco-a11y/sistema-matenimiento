@@ -12,7 +12,7 @@ import fs from 'fs';
 
 
 // Configuración
-import config from './config/config.js';
+import config from './config/config.cjs';
 import { testConnection, syncDatabase } from './config/database.js';
 import appLogger from './utils/logger.js';
 // import { seedDatabase } from './seeders/initialData.js';
