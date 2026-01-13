@@ -233,16 +233,6 @@ module.exports = {
         created_at: now,
         updated_at: now
       },
-      {
-        id: uuidv4(),
-        name: 'permissions:manage',
-        module: 'permissions',
-        action: 'manage',
-        description: 'Permite gestionar permisos',
-        is_active: true,
-        created_at: now,
-        updated_at: now
-      },
       // Supplies
       {
         id: uuidv4(),
@@ -285,8 +275,10 @@ module.exports = {
         updated_at: now
       }
     ];
-    await queryInterface.bulkDelete('permissions', null, {});
-    await queryInterface.bulkInsert('permissions', permissions, {});
+    // await queryInterface.bulkDelete('permissions', null, {});
+    await queryInterface.bulkInsert('permissions', permissions, {
+      ignoreDuplicates: true
+    });
   },
   down: async (queryInterface, Sequelize) => {
     await queryInterface.bulkDelete('permissions', null, {});

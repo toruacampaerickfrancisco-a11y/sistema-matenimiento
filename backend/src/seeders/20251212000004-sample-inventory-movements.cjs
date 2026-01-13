@@ -77,7 +77,9 @@ module.exports = {
       }
     ];
 
-    await queryInterface.bulkInsert('inventory_movements', movements, {});
+    await queryInterface.bulkInsert('inventory_movements', movements, {
+      ignoreDuplicates: true
+    });
   },
   down: async (queryInterface, Sequelize) => {
     // Eliminar solo los registros creados por este seeder (ids fijos)

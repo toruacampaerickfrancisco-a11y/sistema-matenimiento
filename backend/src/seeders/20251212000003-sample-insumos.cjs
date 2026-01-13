@@ -128,7 +128,9 @@ module.exports = {
       }
     ];
 
-    await queryInterface.bulkInsert('insumos', insumos, {});
+    await queryInterface.bulkInsert('insumos', insumos, {
+      ignoreDuplicates: true
+    });
   },
   down: async (queryInterface, Sequelize) => {
     await queryInterface.bulkDelete('insumos', null, {});

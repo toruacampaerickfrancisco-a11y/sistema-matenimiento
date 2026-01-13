@@ -189,12 +189,14 @@ module.exports = {
         type: typeMap[type] || 'other',
         assigned_user_id: null,
         status: statusMap[status] || 'available',
-        created_at,
-        updated_at
+        createdAt: created_at,
+        updatedAt: updated_at
       };
     });
-    await queryInterface.bulkDelete('equipment', null, {});
-    await queryInterface.bulkInsert('equipment', equipos, {});
+    // await queryInterface.bulkDelete('equipment', null, {});
+    await queryInterface.bulkInsert('equipment', equipos, {
+      ignoreDuplicates: true
+    });
   },
   down: async (queryInterface, Sequelize) => {
     await queryInterface.bulkDelete('equipment', null, {});

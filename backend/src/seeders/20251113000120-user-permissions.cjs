@@ -25,7 +25,9 @@ module.exports = {
       created_at: now,
       updated_at: now
     }));
-    await queryInterface.bulkInsert('user_permissions', userPermissions, {});
+    await queryInterface.bulkInsert('user_permissions', userPermissions, {
+      ignoreDuplicates: true
+    });
   },
   down: async (queryInterface, Sequelize) => {
     await queryInterface.bulkDelete('user_permissions', null, {});

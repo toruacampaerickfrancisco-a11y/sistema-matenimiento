@@ -22,7 +22,9 @@ module.exports = {
         updated_at: now
       }
     ];
-    await queryInterface.bulkInsert('users', users, {});
+    await queryInterface.bulkInsert('users', users, {
+      ignoreDuplicates: true
+    });
   },
   down: async (queryInterface, Sequelize) => {
     await queryInterface.bulkDelete('users', null, {});

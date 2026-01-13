@@ -1,10 +1,13 @@
+const { DataTypes } = require('sequelize');
+
 /** @type {import('sequelize-cli').Migration} */
-export async function up (queryInterface, Sequelize) {
-  // Crear columnas temporales
-  await queryInterface.addColumn('tickets', 'attachments_temp', {
-    type: Sequelize.TEXT,
-    allowNull: true
-  });
+module.exports = {
+  async up (queryInterface, Sequelize) {
+    // Crear columnas temporales
+    await queryInterface.addColumn('tickets', 'attachments_temp', {
+      type: Sequelize.TEXT,
+      allowNull: true
+    });
 
   await queryInterface.addColumn('tickets', 'tags_temp', {
     type: Sequelize.TEXT,

@@ -117,7 +117,9 @@ module.exports = {
     }
 
     if (users.length > 0) {
-      await queryInterface.bulkInsert('users', users, {});
+      await queryInterface.bulkInsert('users', users, {
+        ignoreDuplicates: true
+      });
       console.log(`Se importaron ${users.length} usuarios desde el CSV`);
     } else {
       console.log('No se encontraron usuarios válidos para importar');

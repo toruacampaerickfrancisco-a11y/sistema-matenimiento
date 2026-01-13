@@ -23,7 +23,7 @@ module.exports = {
       {
         id: uuidv4(),
         ticket_id: tickets[0].id,
-        user_id: users[0].id,
+        created_by_id: users[0].id,
         comment: 'He revisado la computadora y el problema parece ser con la fuente de poder. Voy a verificar el voltaje.',
         is_internal: false,
         created_at: new Date(now.getTime() - 1 * 24 * 60 * 60 * 1000),
@@ -32,7 +32,7 @@ module.exports = {
       {
         id: uuidv4(),
         ticket_id: tickets[0].id,
-        user_id: users[1].id,
+        created_by_id: users[1].id,
         comment: 'Gracias por la actualización. ¿Cuánto tiempo tomará el reemplazo de la fuente?',
         is_internal: false,
         created_at: new Date(now.getTime() - 20 * 60 * 1000), // 20 minutos después
@@ -41,7 +41,7 @@ module.exports = {
       {
         id: uuidv4(),
         ticket_id: tickets[1].id,
-        user_id: users[2].id,
+        created_by_id: users[2].id,
         comment: 'Toner instalado correctamente. La impresora ya está funcionando.',
         is_internal: true,
         created_at: new Date(now.getTime() - 2 * 60 * 60 * 1000), // 2 horas atrás
@@ -50,7 +50,7 @@ module.exports = {
       {
         id: uuidv4(),
         ticket_id: tickets[2].id,
-        user_id: users[3].id,
+        created_by_id: users[3].id,
         comment: 'Instalación completada en todas las estaciones. Antivirus funcionando correctamente.',
         is_internal: true,
         created_at: new Date(now.getTime() - 1 * 24 * 60 * 60 * 1000),
@@ -59,7 +59,7 @@ module.exports = {
       {
         id: uuidv4(),
         ticket_id: tickets[2].id,
-        user_id: users[0].id,
+        created_by_id: users[0].id,
         comment: 'Excelente trabajo. Los usuarios ya pueden trabajar con tranquilidad.',
         is_internal: false,
         created_at: new Date(now.getTime() - 30 * 60 * 1000), // 30 minutos después
@@ -67,7 +67,9 @@ module.exports = {
       }
     ];
 
-    await queryInterface.bulkInsert('ticket_comments', comments, {});
+    await queryInterface.bulkInsert('ticket_comments', comments, {
+      ignoreDuplicates: true
+    });
   },
   down: async (queryInterface, Sequelize) => {
     await queryInterface.bulkDelete('ticket_comments', null, {});

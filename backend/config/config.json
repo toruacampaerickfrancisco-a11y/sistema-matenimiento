@@ -19,18 +19,11 @@
   },
   "production": {
     "username": "postgres",
-    "password": "postgres",
-    "database": "mantenimiento_erp_prod",
+    "password": "Bienestar2025+",
+    "database": "sistema-mantenimientoDB",
     "host": "localhost",
     "port": 5432,
     "dialect": "postgres",
-    "logging": false,
-    "ssl": true,
-    "dialectOptions": {
-      "ssl": {
-        "require": true,
-        "rejectUnauthorized": false
-      }
-    }
+    "logging": false
   }
 }

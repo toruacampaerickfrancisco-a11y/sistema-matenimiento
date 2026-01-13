@@ -152,7 +152,9 @@ module.exports = {
       }
     ];
 
-    await queryInterface.bulkInsert('tickets', tickets, {});
+    await queryInterface.bulkInsert('tickets', tickets, {
+      ignoreDuplicates: true
+    });
   },
   down: async (queryInterface, Sequelize) => {
     await queryInterface.bulkDelete('tickets', null, {});
